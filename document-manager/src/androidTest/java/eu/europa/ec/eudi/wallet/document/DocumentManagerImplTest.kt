@@ -130,6 +130,23 @@ class DocumentManagerImplTest {
     }
 
     @Test
+    fun test_add_age_over_18_pseudonym() {
+        val docType = "eu.europa.ec.eudiw.pseudonym.age_over_18.1"
+        val data = context.resources.openRawResource(R.raw.age_over_18_pseudonym).use { raw ->
+            Hex.decode(raw.readBytes())
+        }
+
+        documentManager.checkPublicKeyBeforeAdding(false)
+        val issuanceRequest = documentManager.createIssuanceRequest(docType, false)
+            .getOrThrow()
+        val result = documentManager.addDocument(issuanceRequest, data)
+        assertTrue(result is AddDocumentResult.Success)
+        assertEquals(issuanceRequest.documentId, (result as AddDocumentResult.Success).documentId)
+        val document = documentManager.getDocumentById(issuanceRequest.documentId)
+        assertEquals(docType, document!!.docType)
+    }
+
+    @Test
     fun test_checkPublicKeyInMso() {
         val docType = "eu.europa.ec.eudiw.pid.1"
         // some random data with mismatching public key
