@@ -38,4 +38,6 @@ open class UnsignedDocument(
     override val keyAlias: String,
     override val secureArea: SecureArea,
     override val createdAt: Instant,
+    override val validFrom: Instant,
+    override val validUntil: Instant,
 ) : Document

@@ -46,6 +46,8 @@ sealed interface Document {
     val keyAlias: String
     val secureArea: SecureArea
     val createdAt: Instant
+    val validFrom: Instant
+    val validUntil: Instant
     val isCertified: Boolean
 
     val keyInfo: KeyInfo
@@ -56,6 +58,15 @@ sealed interface Document {
 
     val isKeyInvalidated: Boolean
         get() = secureArea.getKeyInvalidated(keyAlias)
+
+    /**
+     * Check if the document is valid at a given time, based on the validFrom and validUntil fields
+     * @param time the time to check
+     * @return true if the document is valid at the given time, false otherwise
+     */
+    fun isValidAt(time: Instant): Boolean {
+        return time in validFrom..validUntil
+    }
 
     /**
      * Sign the data with the document key

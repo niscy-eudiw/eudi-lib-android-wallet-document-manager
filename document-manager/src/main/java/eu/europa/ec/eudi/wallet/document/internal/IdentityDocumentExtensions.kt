@@ -25,6 +25,7 @@ import eu.europa.ec.eudi.wallet.document.IssuedDocument
 import eu.europa.ec.eudi.wallet.document.UnsignedDocument
 import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
+import kotlinx.datetime.toJavaInstant
 import java.time.Instant
 import com.android.identity.document.Document as IdentityDocument
 
@@ -139,6 +140,8 @@ internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
             format = documentFormat,
             isCertified = credential.isCertified,
             keyAlias = credential.alias,
+            validFrom = credential.validFrom.toJavaInstant(),
+            validUntil = credential.validUntil.toJavaInstant(),
         )
 
         DocumentState.ISSUED -> IssuedDocument(
@@ -150,6 +153,8 @@ internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
             format = documentFormat,
             isCertified = credential.isCertified,
             keyAlias = credential.alias,
+            validFrom = credential.validFrom.toJavaInstant(),
+            validUntil = credential.validUntil.toJavaInstant(),
             nameSpacedData = nameSpacedData,
             issuerProvidedData = credential.issuerProvidedData
         )
@@ -162,6 +167,8 @@ internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
             format = documentFormat,
             isCertified = credential.isCertified,
             keyAlias = credential.alias,
+            validFrom = credential.validFrom.toJavaInstant(),
+            validUntil = credential.validUntil.toJavaInstant(),
             relatedData = deferredRelatedData
         )
     } as D

@@ -47,6 +47,8 @@ data class IssuedDocument(
     override val keyAlias: String,
     override val secureArea: SecureArea,
     override val createdAt: Instant,
+    override val validFrom: Instant,
+    override val validUntil: Instant,
     val issuedAt: Instant,
     val nameSpacedData: NameSpacedData,
     val issuerProvidedData: ByteArray

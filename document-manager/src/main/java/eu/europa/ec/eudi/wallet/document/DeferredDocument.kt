@@ -40,6 +40,8 @@ class DeferredDocument(
     keyAlias: String,
     secureArea: SecureArea,
     createdAt: Instant,
+    validFrom: Instant,
+    validUntil: Instant,
     val relatedData: ByteArray
 ) : UnsignedDocument(
     id = id,
@@ -48,5 +50,7 @@ class DeferredDocument(
     isCertified = isCertified,
     keyAlias = keyAlias,
     secureArea = secureArea,
-    createdAt = createdAt
+    createdAt = createdAt,
+    validFrom = validFrom,
+    validUntil = validUntil
 )
