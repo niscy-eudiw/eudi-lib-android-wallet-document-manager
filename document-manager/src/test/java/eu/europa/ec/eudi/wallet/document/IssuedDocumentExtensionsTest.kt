@@ -58,6 +58,7 @@ class TestIssuedDocumentExtensions {
             validUntil = Clock.System.now().plus(10.days).toJavaInstant(),
             nameSpacedData = nameSpacedData,
             issuerProvidedData = byteArrayOf(),
+            documentMetaData = mockk(),
         )
 
         val json = issuedDocument.nameSpacedDataJSONObject

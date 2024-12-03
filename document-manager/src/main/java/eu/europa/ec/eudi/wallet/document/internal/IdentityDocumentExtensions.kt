@@ -25,6 +25,7 @@ import eu.europa.ec.eudi.wallet.document.IssuedDocument
 import eu.europa.ec.eudi.wallet.document.UnsignedDocument
 import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
 import kotlinx.datetime.toJavaInstant
 import java.time.Instant
 import com.android.identity.document.Document as IdentityDocument
@@ -54,6 +55,17 @@ internal val IdentityDocument.state: DocumentState
         }
 
         else -> DocumentState.UNSIGNED
+    }
+
+/**
+ * The metadata stored in applicationData under the key "metadata"
+ */
+internal var IdentityDocument.metadataBytes: ByteArray
+    @JvmSynthetic
+    get() = applicationData.getData("metadata")
+    @JvmSynthetic
+    set(value) {
+        applicationData.setData("metadata", value)
     }
 
 /**
@@ -142,6 +154,7 @@ internal fun IdentityDocument.clearDeferredRelatedData() =
  */
 @JvmSynthetic
 internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
+    val documentMetaData : DocumentMetaData? = metadataBytes.toClassObject<DocumentMetaData>()
 
     val credential = when (state) {
         DocumentState.UNSIGNED,
@@ -171,6 +184,7 @@ internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
             documentManagerId = documentManagerId,
             isCertified = credential.isCertified,
             keyAlias = credential.alias,
+            documentMetaData = documentMetaData
         )
 
         DocumentState.ISSUED -> IssuedDocument(
@@ -186,7 +200,8 @@ internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
             validFrom = credential.validFrom.toJavaInstant(),
             validUntil = credential.validUntil.toJavaInstant(),
             nameSpacedData = nameSpacedData,
-            issuerProvidedData = credential.issuerProvidedData
+            issuerProvidedData = credential.issuerProvidedData,
+            documentMetaData = documentMetaData
         )
 
         DocumentState.DEFERRED -> DeferredDocument(
@@ -198,7 +213,8 @@ internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
             documentManagerId = documentManagerId,
             isCertified = credential.isCertified,
             keyAlias = credential.alias,
-            relatedData = deferredRelatedData
+            relatedData = deferredRelatedData,
+            documentMetaData = documentMetaData
         )
     } as D
 }
