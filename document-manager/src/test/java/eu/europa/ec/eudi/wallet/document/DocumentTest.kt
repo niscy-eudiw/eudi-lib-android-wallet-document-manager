@@ -28,6 +28,7 @@ import com.android.identity.securearea.software.SoftwareKeyUnlockData
 import com.android.identity.securearea.software.SoftwareSecureArea
 import com.android.identity.storage.EphemeralStorageEngine
 import com.android.identity.storage.StorageEngine
+import eu.europa.ec.eudi.wallet.document.format.MsoMdocData
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
 import eu.europa.ec.eudi.wallet.document.internal.toCoseBytes
 import kotlinx.datetime.Clock
@@ -104,12 +105,14 @@ class DocumentTest {
 
         assertEquals(unsignedDocument.createdAt, issuedDocument.createdAt)
         assertNotEquals(issuedDocument.createdAt, issuedDocument.issuedAt)
-        assertTrue(issuedDocument.nameSpaces.isNotEmpty())
         assertTrue(issuedDocument.validFrom.isBefore(issuedDocument.validUntil))
         assertTrue(issuedDocument.isValidAt(Clock.System.now().toJavaInstant()))
         assertTrue(issuedDocument.issuerProvidedData.isNotEmpty())
+        val documentData = issuedDocument.data
+        assertIs<MsoMdocData>(documentData)
+        assertTrue(documentData.nameSpaces.isNotEmpty())
         assertTrue(
-            issuedDocument.nameSpacedData.hasDataElement(
+            documentData.nameSpacedData.hasDataElement(
                 "eu.europa.ec.eudi.pid.1",
                 "given_name"
             )

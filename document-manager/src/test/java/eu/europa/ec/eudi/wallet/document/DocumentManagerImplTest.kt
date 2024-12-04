@@ -32,13 +32,12 @@ import com.android.identity.storage.EphemeralStorageEngine
 import com.android.identity.storage.StorageEngine
 import com.android.identity.util.Constants
 import com.upokecenter.cbor.CBORObject
+import eu.europa.ec.eudi.wallet.document.format.MsoMdocData
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
-import eu.europa.ec.eudi.wallet.document.format.UnsupportedDocumentFormat
 import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
 import eu.europa.ec.eudi.wallet.document.mock_data.DocumentMetaDataMockData
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.spyk
 import org.junit.Assert
 import org.junit.Assert.assertThrows
 import kotlin.test.AfterTest
@@ -117,22 +116,9 @@ class DocumentManagerImplTest {
 
         assertTrue(issuedDocument.isCertified)
         assertTrue(issuedDocument.issuerProvidedData.isNotEmpty())
-
-        assertEquals(1, issuedDocument.nameSpaces.keys.size)
-        assertEquals(33, issuedDocument.nameSpaces.entries.first().value.size)
-    }
-
-    @Test
-    fun `should return failure result when unsupported format is used to create document`() {
-        val createDocumentResult = documentManager.createDocument(
-            format = UnsupportedDocumentFormat,
-            createSettings = CreateDocumentSettings(
-                secureAreaIdentifier = secureArea.identifier,
-                createKeySettings = SoftwareCreateKeySettings.Builder().build()
-            )
-        )
-        assertTrue(createDocumentResult.isFailure)
-        assertIs<IllegalArgumentException>(createDocumentResult.exceptionOrNull())
+        assertIs<MsoMdocData>(issuedDocument.data)
+        assertEquals(1, issuedDocument.data.nameSpaces.keys.size)
+        assertEquals(33, issuedDocument.data.nameSpaces.entries.first().value.size)
     }
 
     @Test
@@ -280,26 +266,6 @@ class DocumentManagerImplTest {
         assertIs<IllegalArgumentException>(deferredResult.exceptionOrNull())
     }
 
-    @Test
-    fun `should return failure when storing issued document of unsupported format`() {
-
-        val createDocumentResult = documentManager.createDocument(
-            format = MsoMdocFormat(docType = "eu.europa.ec.eudi.pid.1"),
-            createSettings = CreateDocumentSettings(
-                secureAreaIdentifier = secureArea.identifier,
-                createKeySettings = SoftwareCreateKeySettings.Builder().build()
-            )
-        )
-        assertTrue(createDocumentResult.isSuccess)
-        val document = spyk(createDocumentResult.getOrThrow()) {
-            every { format } returns UnsupportedDocumentFormat
-        }
-
-        val storeDocumentResult = documentManager.storeIssuedDocument(document, byteArrayOf(0x01))
-        assertTrue(storeDocumentResult.isFailure)
-        assertIs<IllegalArgumentException>(storeDocumentResult.exceptionOrNull())
-    }
-
     @OptIn(ExperimentalStdlibApi::class)
     @Test
     fun `should generate the correct digest id for a document given an issuer data`() {
@@ -321,8 +287,12 @@ class DocumentManagerImplTest {
         val storeResult = documentManager.storeIssuedDocument(document, issuerData)
         assertTrue(storeResult.isSuccess)
         val issuedDocument = storeResult.getOrThrow()
-        val docType = (issuedDocument.format as MsoMdocFormat).docType
-        val dataElements = issuedDocument.nameSpaces.flatMap { (nameSpace, elementIdentifiers) ->
+        val format = issuedDocument.format
+        assertIs<MsoMdocFormat>(format)
+        val docType = format.docType
+        val documentData = issuedDocument.data
+        assertIs<MsoMdocData>(documentData)
+        val dataElements = documentData.nameSpaces.flatMap { (nameSpace, elementIdentifiers) ->
             elementIdentifiers.map { elementIdentifier ->
                 DocumentRequest.DataElement(nameSpace, elementIdentifier, false)
             }
@@ -331,7 +301,7 @@ class DocumentManagerImplTest {
         val transcript = CBORObject.FromObject(ByteArray(0)).EncodeToBytes()
         val staticAuthData = StaticAuthDataParser(issuedDocument.issuerProvidedData).parse()
         val mergedIssuerNameSpaces =
-            MdocUtil.mergeIssuerNamesSpaces(request, issuedDocument.nameSpacedData, staticAuthData)
+            MdocUtil.mergeIssuerNamesSpaces(request, documentData.nameSpacedData, staticAuthData)
         val data = DocumentGenerator(docType, staticAuthData.issuerAuth, transcript)
             .setIssuerNamespaces(mergedIssuerNameSpaces)
             .setDeviceNamespacesSignature(

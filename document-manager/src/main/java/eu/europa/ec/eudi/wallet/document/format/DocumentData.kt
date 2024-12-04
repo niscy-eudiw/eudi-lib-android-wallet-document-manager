@@ -16,11 +16,18 @@
 
 package eu.europa.ec.eudi.wallet.document.format
 
-import org.jetbrains.annotations.VisibleForTesting
-
 /**
- * Represents an unsupported document format. This is used only for testing purposes.
- * @see DocumentFormat
+ * Container for the document data.
+ * This interface is used to represent the document data and it is implemented
+ * according to the document format.
+ * The document data contains the format and the claims of the document.
+ * @see [DocumentFormat]
+ *
+ * @property format The document format.
+ * @property claims The list of document claims.
  */
-@VisibleForTesting
-internal data object UnsupportedDocumentFormat : DocumentFormat
+sealed interface DocumentData {
+    val format: DocumentFormat
+
+    val claims: List<DocumentClaim>
+}

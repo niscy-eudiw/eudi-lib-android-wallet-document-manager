@@ -16,11 +16,9 @@
 
 package eu.europa.ec.eudi.wallet.document
 
-import com.android.identity.cbor.Cbor
-import com.android.identity.document.NameSpacedData
 import com.android.identity.securearea.SecureArea
+import eu.europa.ec.eudi.wallet.document.format.DocumentData
 import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
-import eu.europa.ec.eudi.wallet.document.internal.toObject
 import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
 import java.time.Instant
 
@@ -36,16 +34,12 @@ import java.time.Instant
  * @property createdAt the creation date
  * @property metadata the document metadata
  * @property issuedAt the issuance date
- * @property nameSpacedData the name spaced data
  * @property issuerProvidedData the issuer provided data
- * @property nameSpacedDataInBytes the name spaced data represented as a map
- * @property nameSpacedDataDecoded the name spaced data represented as a map with decoded values
- * @property nameSpaces the name spaces and their element identifiers
+ * @property data the document data (format specific)
  */
 data class IssuedDocument(
     override val id: DocumentId,
     override val name: String,
-    override val format: DocumentFormat,
     override val documentManagerId: String,
     override val isCertified: Boolean,
     override val keyAlias: String,
@@ -55,9 +49,12 @@ data class IssuedDocument(
     val validFrom: Instant,
     val validUntil: Instant,
     val issuedAt: Instant,
-    val nameSpacedData: NameSpacedData,
-    val issuerProvidedData: ByteArray
+    val issuerProvidedData: ByteArray,
+    val data: DocumentData,
 ) : Document {
+
+    override val format: DocumentFormat
+        get() = data.format
 
     /**
      * Check if the document is valid at a given time, based on the validFrom and validUntil fields
@@ -68,23 +65,6 @@ data class IssuedDocument(
         return time in validFrom..validUntil
     }
 
-    val nameSpacedDataInBytes: NameSpacedValues<ByteArray>
-        get() = nameSpacedData.nameSpaceNames.associateWith { nameSpace ->
-            nameSpacedData.getDataElementNames(nameSpace)
-                .associateWith { elementIdentifier ->
-                    nameSpacedData.getDataElement(nameSpace, elementIdentifier)
-                }
-        }
-
-    val nameSpacedDataDecoded: NameSpacedValues<Any?>
-        get() = nameSpacedDataInBytes.mapValues {
-            it.value.mapValues {
-                it.value.toObject()
-            }
-        }
-
-    val nameSpaces: NameSpaces
-        get() = nameSpacedDataInBytes.mapValues { it.value.keys.toList() }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -92,7 +72,6 @@ data class IssuedDocument(
 
         if (id != other.id) return false
         if (name != other.name) return false
-        if (format != other.format) return false
         if (documentManagerId != other.documentManagerId) return false
         if (isCertified != other.isCertified) return false
         if (keyAlias != other.keyAlias) return false
@@ -102,9 +81,7 @@ data class IssuedDocument(
         if (validFrom != other.validFrom) return false
         if (validUntil != other.validUntil) return false
         if (issuedAt != other.issuedAt) return false
-        if (!Cbor.encode(nameSpacedData.toDataItem())
-                .contentEquals(Cbor.encode(other.nameSpacedData.toDataItem()))
-        ) return false
+        if (data != other.data) return false
         if (!issuerProvidedData.contentEquals(other.issuerProvidedData)) return false
 
         return true
@@ -113,7 +90,6 @@ data class IssuedDocument(
     override fun hashCode(): Int {
         var result = id.hashCode()
         result = 31 * result + name.hashCode()
-        result = 31 * result + format.hashCode()
         result = 31 * result + documentManagerId.hashCode()
         result = 31 * result + isCertified.hashCode()
         result = 31 * result + keyAlias.hashCode()
@@ -123,7 +99,7 @@ data class IssuedDocument(
         result = 31 * result + validFrom.hashCode()
         result = 31 * result + validUntil.hashCode()
         result = 31 * result + issuedAt.hashCode()
-        result = 31 * result + Cbor.encode(nameSpacedData.toDataItem()).contentHashCode()
+        result = 31 * result + data.hashCode()
         result = 31 * result + issuerProvidedData.contentHashCode()
         return result
     }

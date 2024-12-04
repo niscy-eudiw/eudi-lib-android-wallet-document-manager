@@ -169,7 +169,6 @@ class DocumentManagerImpl(
                 }
 
                 is SdJwtVcFormat -> format.createCredential()
-                else -> throw IllegalArgumentException("Format ${format::class.simpleName} not supported")
             }
 
             documentStore.addDocument(identityDocument)

@@ -24,6 +24,7 @@ import eu.europa.ec.eudi.wallet.document.Document
 import eu.europa.ec.eudi.wallet.document.IssuedDocument
 import eu.europa.ec.eudi.wallet.document.UnsignedDocument
 import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
+import eu.europa.ec.eudi.wallet.document.format.MsoMdocData
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
 import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
 import kotlinx.datetime.toJavaInstant
@@ -214,14 +215,20 @@ internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
             createdAt = createdAt,
             issuedAt = issuedAt,
             secureArea = credential.secureArea,
-            format = documentFormat,
             documentManagerId = documentManagerId,
             isCertified = credential.isCertified,
             keyAlias = credential.alias,
             validFrom = credential.validFrom.toJavaInstant(),
             validUntil = credential.validUntil.toJavaInstant(),
-            nameSpacedData = nameSpacedData,
             issuerProvidedData = credential.issuerProvidedData,
+            data = when (documentFormat) {
+                is MsoMdocFormat -> MsoMdocData(
+                    format = documentFormat,
+                    nameSpacedData = nameSpacedData
+                )
+
+                else -> TODO("Currently, only mso_mdoc format is supported")
+            },
             metadata = metadata
         )
 
