@@ -34,7 +34,7 @@ import java.time.Instant
  * @property keyAlias the key alias
  * @property secureArea the secure area
  * @property createdAt the creation date
- * @property documentMetaData the document metadata
+ * @property metadata the document metadata
  * @property issuedAt the issuance date
  * @property nameSpacedData the name spaced data
  * @property issuerProvidedData the issuer provided data
@@ -51,7 +51,7 @@ data class IssuedDocument(
     override val keyAlias: String,
     override val secureArea: SecureArea,
     override val createdAt: Instant,
-    override val documentMetaData: DocumentMetaData?,
+    override val metadata: DocumentMetaData?,
     val validFrom: Instant,
     val validUntil: Instant,
     val issuedAt: Instant,
@@ -98,6 +98,7 @@ data class IssuedDocument(
         if (keyAlias != other.keyAlias) return false
         if (secureArea != other.secureArea) return false
         if (createdAt != other.createdAt) return false
+        if (metadata != other.metadata) return false
         if (validFrom != other.validFrom) return false
         if (validUntil != other.validUntil) return false
         if (issuedAt != other.issuedAt) return false
@@ -117,6 +118,7 @@ data class IssuedDocument(
         result = 31 * result + isCertified.hashCode()
         result = 31 * result + keyAlias.hashCode()
         result = 31 * result + secureArea.hashCode()
+        result = metadata?.let { 31 * result + it.hashCode() } ?: result
         result = 31 * result + createdAt.hashCode()
         result = 31 * result + validFrom.hashCode()
         result = 31 * result + validUntil.hashCode()

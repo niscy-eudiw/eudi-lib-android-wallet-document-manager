@@ -27,7 +27,11 @@ import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
 import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
 import kotlinx.datetime.toJavaInstant
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.time.Instant
+import kotlin.jvm.Throws
 import com.android.identity.document.Document as IdentityDocument
 
 /**
@@ -60,12 +64,37 @@ internal val IdentityDocument.state: DocumentState
 /**
  * The metadata stored in applicationData under the key "metadata"
  */
-internal var IdentityDocument.metadataBytes: ByteArray
+private val metadataJson = Json {
+    ignoreUnknownKeys = true
+    allowStructuredMapKeys = true
+    classDiscriminator = "type"
+}
+internal var IdentityDocument.metadata: DocumentMetaData?
     @JvmSynthetic
-    get() = applicationData.getData("metadata")
+    @Throws(IllegalArgumentException::class, SerializationException::class)
+    /**
+     * Get the metadata from applicationData under the key "metadata"
+     * @return the metadata or null if not found
+     * @throws IllegalArgumentException if the metadata is not valid json
+     * @throws SerializationException if the metadata fails to deserialize
+     */
+    get() {
+        return try {
+            applicationData.getString("metadata")
+        } catch (_: Throwable) {
+            null
+        }?.let { metadataJson.decodeFromString(it) }
+    }
     @JvmSynthetic
+    @Throws(IllegalArgumentException::class, SerializationException::class)
+    /**
+     * Set the metadata in applicationData under the key "metadata"
+     * @param value the metadata to be set
+     * @throws IllegalArgumentException if the metadata is not valid json
+     * @throws SerializationException if the metadata fails to serialize
+     */
     set(value) {
-        applicationData.setData("metadata", value)
+        applicationData.setString("metadata", metadataJson.encodeToString(value))
     }
 
 /**
@@ -154,7 +183,6 @@ internal fun IdentityDocument.clearDeferredRelatedData() =
  */
 @JvmSynthetic
 internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
-    val documentMetaData : DocumentMetaData? = metadataBytes.toClassObject<DocumentMetaData>()
 
     val credential = when (state) {
         DocumentState.UNSIGNED,
@@ -184,7 +212,7 @@ internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
             documentManagerId = documentManagerId,
             isCertified = credential.isCertified,
             keyAlias = credential.alias,
-            documentMetaData = documentMetaData
+            metadata = metadata
         )
 
         DocumentState.ISSUED -> IssuedDocument(
@@ -201,7 +229,7 @@ internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
             validUntil = credential.validUntil.toJavaInstant(),
             nameSpacedData = nameSpacedData,
             issuerProvidedData = credential.issuerProvidedData,
-            documentMetaData = documentMetaData
+            metadata = metadata
         )
 
         DocumentState.DEFERRED -> DeferredDocument(
@@ -214,7 +242,7 @@ internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
             isCertified = credential.isCertified,
             keyAlias = credential.alias,
             relatedData = deferredRelatedData,
-            documentMetaData = documentMetaData
+            documentMetaData = metadata
         )
     } as D
 }

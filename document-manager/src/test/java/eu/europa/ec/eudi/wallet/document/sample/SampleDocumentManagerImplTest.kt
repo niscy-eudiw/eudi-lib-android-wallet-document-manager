@@ -16,16 +16,17 @@
 
 package eu.europa.ec.eudi.wallet.document.sample
 
+import com.android.identity.securearea.SecureArea
 import com.android.identity.securearea.SecureAreaRepository
 import com.android.identity.securearea.software.SoftwareCreateKeySettings
 import com.android.identity.securearea.software.SoftwareSecureArea
 import com.android.identity.storage.EphemeralStorageEngine
+import com.android.identity.storage.StorageEngine
 import eu.europa.ec.eudi.wallet.document.CreateDocumentSettings
 import eu.europa.ec.eudi.wallet.document.DocumentManagerImpl
 import eu.europa.ec.eudi.wallet.document.IssuedDocument
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
 import eu.europa.ec.eudi.wallet.document.getResourceAsText
-import eu.europa.ec.eudi.wallet.document.secureAreaFixture
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import kotlin.io.encoding.Base64
@@ -39,6 +40,8 @@ class SampleDocumentManagerImplTest {
 
     companion object {
         lateinit var documentManager: SampleDocumentManagerImpl
+        lateinit var secureArea: SecureArea
+        lateinit var storageEngine: StorageEngine
 
         @OptIn(ExperimentalEncodingApi::class)
         val sampleDocuments
@@ -49,13 +52,14 @@ class SampleDocumentManagerImplTest {
         @BeforeClass
         @JvmStatic
         fun setUp() {
-            val secureArea = SoftwareSecureArea(EphemeralStorageEngine())
+            storageEngine = EphemeralStorageEngine()
+            secureArea = SoftwareSecureArea(storageEngine)
             val secureAreaRepository = SecureAreaRepository()
                 .apply { addImplementation(secureArea) }
             documentManager = SampleDocumentManagerImpl(
                 DocumentManagerImpl(
                     identifier = SampleDocumentManagerImpl::class.simpleName!!,
-                    storageEngine = EphemeralStorageEngine(),
+                    storageEngine = storageEngine,
                     secureAreaRepository = secureAreaRepository
                 )
             )
@@ -120,7 +124,7 @@ class SampleDocumentManagerImplTest {
         documentManager.loadMdocSampleDocuments(
             sampleData = sampleDocuments,
             createSettings = CreateDocumentSettings(
-                secureAreaIdentifier = secureAreaFixture.identifier,
+                secureAreaIdentifier = secureArea.identifier,
                 createKeySettings = createKeySettings,
             ),
             documentNamesMap = mapOf(

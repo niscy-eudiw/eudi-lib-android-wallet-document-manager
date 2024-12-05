@@ -33,15 +33,12 @@ import eu.europa.ec.eudi.wallet.document.internal.deferredRelatedData
 import eu.europa.ec.eudi.wallet.document.internal.documentManagerId
 import eu.europa.ec.eudi.wallet.document.internal.documentName
 import eu.europa.ec.eudi.wallet.document.internal.issuedAt
-import eu.europa.ec.eudi.wallet.document.internal.metadataBytes
+import eu.europa.ec.eudi.wallet.document.internal.metadata
 import eu.europa.ec.eudi.wallet.document.internal.storeIssuedDocument
 import eu.europa.ec.eudi.wallet.document.internal.toDocument
 import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toJavaInstant
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.modules.SerializersModule
 import org.jetbrains.annotations.VisibleForTesting
 
 /**
@@ -55,13 +52,11 @@ import org.jetbrains.annotations.VisibleForTesting
  * @param identifier the identifier of the document manager
  * @param storageEngine the storage engine
  * @param secureAreaRepository the secure area
- * @param json used for serialization
  */
 class DocumentManagerImpl(
     override val identifier: String,
     override val storageEngine: StorageEngine,
     override val secureAreaRepository: SecureAreaRepository,
-    private val json: Json = Json
 ) : DocumentManager {
 
     @VisibleForTesting
@@ -162,7 +157,8 @@ class DocumentManagerImpl(
                 this.documentManagerId = identifier
                 this.documentName = documentId
                 this.createdAt = Clock.System.now().toJavaInstant()
-                this.metadataBytes = json.encodeToString(documentMetaData).toByteArray()
+                this.metadata = documentMetaData
+
             }
             when (format) {
                 is MsoMdocFormat -> {
