@@ -34,7 +34,7 @@ import com.android.identity.util.Constants
 import com.upokecenter.cbor.CBORObject
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocData
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
-import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetadata
 import eu.europa.ec.eudi.wallet.document.mock_data.DocumentMetaDataMockData
 import io.mockk.every
 import io.mockk.mockk
@@ -166,7 +166,7 @@ class DocumentManagerImplTest {
         val result = documentManager.createDocument(
             format = format,
             createSettings = createSettings,
-            documentMetaData = null
+            documentMetadata = null
         )
 
 
@@ -179,7 +179,7 @@ class DocumentManagerImplTest {
     @Test
     fun `Given mocked claims When Creating a document and retrieving it THEN it should have the correct document metadata`() {
         // Given
-        val documentMetaDataMock: DocumentMetaData = DocumentMetaDataMockData.getData()
+        val documentMetadataMock: DocumentMetadata = DocumentMetaDataMockData.getData()
         val documentManager = DocumentManagerImpl(
             identifier = "document_manager_1",
             secureAreaRepository = SecureAreaRepository().apply {
@@ -194,16 +194,16 @@ class DocumentManagerImplTest {
                 secureAreaIdentifier = secureArea.identifier,
                 createKeySettings = SoftwareCreateKeySettings.Builder().build()
             ),
-            documentMetaData = documentMetaDataMock
+            documentMetadata = documentMetadataMock
         ).getOrThrow()
 
         // Then
-        assertEquals(documentMetaDataMock, unsignedDocument.metadata)
+        assertEquals(documentMetadataMock, unsignedDocument.metadata)
 
         // Then
         val document = documentManager.getDocumentById(unsignedDocument.id)
         assertNotNull(document)
-        assertEquals(expected = documentMetaDataMock, actual = document.metadata)
+        assertEquals(expected = documentMetadataMock, actual = document.metadata)
     }
 
     @Test

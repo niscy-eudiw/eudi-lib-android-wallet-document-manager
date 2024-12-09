@@ -18,7 +18,7 @@ package eu.europa.ec.eudi.wallet.document
 
 import com.android.identity.securearea.SecureArea
 import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
-import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetadata
 import java.time.Instant
 
 /**
@@ -42,5 +42,5 @@ open class UnsignedDocument(
     override val keyAlias: String,
     override val secureArea: SecureArea,
     override val createdAt: Instant,
-    override val metadata: DocumentMetaData?
+    override val metadata: DocumentMetadata?
 ) : Document

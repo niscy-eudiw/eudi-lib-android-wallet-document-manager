@@ -33,7 +33,7 @@ import java.util.Locale
  * Document metadata domain object for storage.
  */
 @Serializable
-data class DocumentMetaData(
+data class DocumentMetadata(
     val display: List<Display>,
     val claims: List<Claim>?
 ) {
@@ -59,23 +59,23 @@ data class DocumentMetaData(
         }
 
         /**
-         * Create a [DocumentMetaData] object from a JSON string.
+         * Create a [DocumentMetadata] object from a JSON string.
          * @param json the JSON string representation of the object
-         * @return the [DocumentMetaData] object
-         * @throws IllegalArgumentException if the decoded input cannot be represented as a valid instance of [DocumentMetaData]
+         * @return the [DocumentMetadata] object
+         * @throws IllegalArgumentException if the decoded input cannot be represented as a valid instance of [DocumentMetadata]
          * @throws SerializationException if the given JSON string is not a valid JSON input
          */
-        fun fromJson(json: String): DocumentMetaData = Json.decodeFromString(serializer(), json)
+        fun fromJson(json: String): DocumentMetadata = Json.decodeFromString(serializer(), json)
 
         /**
-         * Create a [DocumentMetaData] object from a byte array of json string.
+         * Create a [DocumentMetadata] object from a byte array of json string.
          * @param jsonByteArray the byte array representation of the object
-         * @return the [DocumentMetaData] object
+         * @return the [DocumentMetadata] object
          * @see [fromJson]
-         * @throws IllegalArgumentException if the decoded input cannot be represented as a valid instance of [DocumentMetaData]
+         * @throws IllegalArgumentException if the decoded input cannot be represented as a valid instance of [DocumentMetadata]
          * @throws SerializationException if the given bytearray of JSON string is not a valid JSON input
          */
-        internal fun fromByteArray(jsonByteArray: ByteArray): DocumentMetaData =
+        internal fun fromByteArray(jsonByteArray: ByteArray): DocumentMetadata =
             fromJson(jsonByteArray.decodeToString())
     }
 

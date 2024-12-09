@@ -26,7 +26,7 @@ import eu.europa.ec.eudi.wallet.document.UnsignedDocument
 import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocData
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
-import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetadata
 import kotlinx.datetime.toJavaInstant
 import kotlinx.serialization.SerializationException
 import java.time.Instant
@@ -63,7 +63,7 @@ internal val IdentityDocument.state: DocumentState
 /**
  * The metadata stored in applicationData under the key "metadata"
  */
-internal var IdentityDocument.metadata: DocumentMetaData?
+internal var IdentityDocument.metadata: DocumentMetadata?
     @JvmSynthetic
     @Throws(IllegalArgumentException::class, SerializationException::class)
     /**
@@ -77,7 +77,7 @@ internal var IdentityDocument.metadata: DocumentMetaData?
             applicationData.getData("metadata")
         } catch (_: Throwable) {
             null
-        }?.let { DocumentMetaData.fromByteArray(it) }
+        }?.let { DocumentMetadata.fromByteArray(it) }
     }
     @JvmSynthetic
     @Throws(IllegalArgumentException::class, SerializationException::class)

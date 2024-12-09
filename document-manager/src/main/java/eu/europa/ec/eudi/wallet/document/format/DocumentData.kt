@@ -16,7 +16,7 @@
 
 package eu.europa.ec.eudi.wallet.document.format
 
-import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetadata
 
 /**
  * Container for the document data.
@@ -24,7 +24,7 @@ import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
  * according to the document format.
  * The document data contains the format, the metadata and the claims of the document
  * @see [DocumentFormat]
- * @see [DocumentMetaData]
+ * @see [DocumentMetadata]
  *
  * @property format The document format.
  * @property claims The list of document claims.
@@ -33,7 +33,7 @@ import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
 sealed interface DocumentData {
     val format: DocumentFormat
     val claims: List<Claim>
-    val metadata: DocumentMetaData?
+    val metadata: DocumentMetadata?
 
     /**
      * Document claim.
@@ -45,7 +45,7 @@ sealed interface DocumentData {
     open class Claim(
         val identifier: String,
         val value: Any?,
-        open val metadata: DocumentMetaData.Claim?
+        open val metadata: DocumentMetadata.Claim?
     )
 }
 

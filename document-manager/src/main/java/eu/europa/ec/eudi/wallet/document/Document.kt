@@ -24,7 +24,7 @@ import com.android.identity.securearea.SecureArea
 import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
 import eu.europa.ec.eudi.wallet.document.internal.toCoseBytes
 import eu.europa.ec.eudi.wallet.document.internal.toEcPublicKey
-import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetadata
 import java.time.Instant
 
 /**
@@ -61,7 +61,7 @@ sealed interface Document {
     val isKeyInvalidated: Boolean
         get() = secureArea.getKeyInvalidated(keyAlias)
 
-    val metadata: DocumentMetaData?
+    val metadata: DocumentMetadata?
 
     /**
      * Sign the data with the document key

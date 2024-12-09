@@ -16,19 +16,19 @@
 
 package eu.europa.ec.eudi.wallet.document.mock_data
 
-import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetadata
 import java.net.URI
 import java.util.Locale
 
 object DocumentMetaDataMockData {
 
-    fun getData(): DocumentMetaData {
+    fun getData(): DocumentMetadata {
         // Initialize displays
         val displays = listOf(
-            DocumentMetaData.Display(
+            DocumentMetadata.Display(
                 name = "Example Display",
                 locale = Locale.ENGLISH,
-                logo = DocumentMetaData.Display.Logo(
+                logo = DocumentMetadata.Display.Logo(
                     uri = URI.create("https://example.com/logo.png"),
                     alternativeText = "Example Logo"
                 ),
@@ -39,32 +39,32 @@ object DocumentMetaDataMockData {
         )
 
         // Create claims
-        val msoClaimName = DocumentMetaData.Claim.Name.MsoMdoc(
+        val msoClaimName = DocumentMetadata.Claim.Name.MsoMdoc(
             name = "MsoClaim",
             nameSpace = "namespace.mso"
         )
-        val sdJwtClaimName = DocumentMetaData.Claim.Name.SdJwtVc(
+        val sdJwtClaimName = DocumentMetadata.Claim.Name.SdJwtVc(
             name = "SdJwtClaim"
         )
 
-        val claims: List<DocumentMetaData.Claim> = listOf(
-            DocumentMetaData.Claim(
+        val claims: List<DocumentMetadata.Claim> = listOf(
+            DocumentMetadata.Claim(
                 name = msoClaimName,
                 mandatory = true,
                 valueType = "string",
                 display = listOf(
-                    DocumentMetaData.Claim.Display(
+                    DocumentMetadata.Claim.Display(
                         name = "Mso Claim Display",
                         locale = Locale.ENGLISH
                     )
                 )
             ),
-            DocumentMetaData.Claim(
+            DocumentMetadata.Claim(
                 name = sdJwtClaimName,
                 mandatory = false,
                 valueType = "integer",
                 display = listOf(
-                    DocumentMetaData.Claim.Display(
+                    DocumentMetadata.Claim.Display(
                         name = "SdJwt Claim Display",
                         locale = Locale.FRENCH
                     )
@@ -73,7 +73,7 @@ object DocumentMetaDataMockData {
         )
 
         // Create and return DocumentMetaData
-        return DocumentMetaData(
+        return DocumentMetadata(
             display = displays,
             claims = claims
         )

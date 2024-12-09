@@ -19,7 +19,7 @@ package eu.europa.ec.eudi.wallet.document
 import com.android.identity.securearea.SecureArea
 import eu.europa.ec.eudi.wallet.document.format.DocumentData
 import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
-import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetadata
 import java.time.Instant
 
 /**
@@ -55,7 +55,7 @@ data class IssuedDocument(
     override val format: DocumentFormat
         get() = data.format
 
-    override val metadata: DocumentMetaData?
+    override val metadata: DocumentMetadata?
         get() = data.metadata
 
     /**

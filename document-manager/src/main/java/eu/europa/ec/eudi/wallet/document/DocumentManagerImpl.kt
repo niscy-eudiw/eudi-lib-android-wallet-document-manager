@@ -36,7 +36,7 @@ import eu.europa.ec.eudi.wallet.document.internal.issuedAt
 import eu.europa.ec.eudi.wallet.document.internal.metadata
 import eu.europa.ec.eudi.wallet.document.internal.storeIssuedDocument
 import eu.europa.ec.eudi.wallet.document.internal.toDocument
-import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetadata
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toJavaInstant
 import org.jetbrains.annotations.VisibleForTesting
@@ -138,13 +138,13 @@ class DocumentManagerImpl(
      *
      * @param format the format of the document
      * @param createSettings the [CreateDocumentSettings] to use for the new document
-     * @param documentMetaData the [DocumentMetaData] data regarding document display
+     * @param documentMetadata the [DocumentMetadata] data regarding document display
      * @return the result of the creation. If successful, it will return the document. If not, it will return an error.
      */
     override fun createDocument(
         format: DocumentFormat,
         createSettings: CreateDocumentSettings,
-        documentMetaData: DocumentMetaData?
+        documentMetadata: DocumentMetadata?
     ): Outcome<UnsignedDocument> {
         var documentId: String? = null
         return try {
@@ -157,7 +157,7 @@ class DocumentManagerImpl(
                 this.documentManagerId = identifier
                 this.documentName = documentId
                 this.createdAt = Clock.System.now().toJavaInstant()
-                this.metadata = documentMetaData
+                this.metadata = documentMetadata
 
             }
             when (format) {

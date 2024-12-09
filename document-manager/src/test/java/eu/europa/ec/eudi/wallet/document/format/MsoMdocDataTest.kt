@@ -27,7 +27,7 @@ import eu.europa.ec.eudi.wallet.document.CreateDocumentSettings.Companion.invoke
 import eu.europa.ec.eudi.wallet.document.DocumentManagerImpl
 import eu.europa.ec.eudi.wallet.document.IssuedDocument
 import eu.europa.ec.eudi.wallet.document.getResourceAsText
-import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetadata
 import kotlinx.datetime.LocalDate
 import java.time.ZonedDateTime
 import kotlin.test.AfterTest
@@ -62,20 +62,20 @@ class MsoMdocDataTest {
         // since we are using fixed issuer data
         documentManager.checkMsoKey = false
 
-        val metadata = DocumentMetaData(
+        val metadata = DocumentMetadata(
             display = listOf(
-                DocumentMetaData.Display(
+                DocumentMetadata.Display(
                     name = "EU PID"
                 )
             ),
             claims = listOf(
-                DocumentMetaData.Claim(
-                    name = DocumentMetaData.Claim.Name.MsoMdoc(
+                DocumentMetadata.Claim(
+                    name = DocumentMetadata.Claim.Name.MsoMdoc(
                         nameSpace = "eu.europa.ec.eudi.pid.1",
                         name = "given_name"
                     ),
                     display = listOf(
-                        DocumentMetaData.Claim.Display(
+                        DocumentMetadata.Claim.Display(
                             name = "Given name"
                         )
                     ),
@@ -90,7 +90,7 @@ class MsoMdocDataTest {
                 secureAreaIdentifier = secureArea.identifier,
                 createKeySettings = createKeySettings
             ),
-            documentMetaData = metadata
+            documentMetadata = metadata
         )
         assertTrue(createDocumentResult.isSuccess)
         val unsignedDocument = createDocumentResult.getOrThrow()
