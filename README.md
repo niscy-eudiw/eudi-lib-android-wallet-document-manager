@@ -224,14 +224,16 @@ the DocumentManager.
 try {
   // create a new document
   // Construct the CreateDocumentSettings that will be used to create the key
-  // for the document.
+  // for the document. You can also optionally provide the document meta 
+  // that came from a credential Offer
   val createSettings = CreateDocumentSettings(
     secureAreaIdentifier = secureArea.identifier,
     createKeySettings = SoftwareCreateKeySettings.Builder().build()
   )
   val createDocumentResult = documentManager.createDocument(
     format = MsoMdocFormat(docType = "eu.europa.ec.eudi.pid.1"),
-    createSettings = createSettings
+    createSettings = createSettings,
+    documentMetadata = metadata  
   )
   val unsignedDocument = createDocumentResult.getOrThrow()
   val publicKeyBytes = unsignedDocument.publicKeyCoseBytes
