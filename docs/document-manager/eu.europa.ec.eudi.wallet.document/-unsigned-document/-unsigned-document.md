@@ -11,4 +11,4 @@ isCertified: [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-bool
 keyAlias: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html),
 secureArea: SecureArea,
 createdAt: [Instant](https://developer.android.com/reference/kotlin/java/time/Instant.html),
-metadata: [DocumentMetaData](../../eu.europa.ec.eudi.wallet.document.metadata/-document-meta-data/index.md)?)
+metadata: [DocumentMetadata](../../eu.europa.ec.eudi.wallet.document.metadata/-document-metadata/index.md)?)

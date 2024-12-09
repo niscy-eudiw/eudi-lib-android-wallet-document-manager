@@ -4,5 +4,5 @@
 
 [androidJvm]\
 open override
-val [metadata](metadata.md): [DocumentMetaData.Claim](../../eu.europa.ec.eudi.wallet.document.metadata/-document-meta-data/-claim/index.md)? =
+val [metadata](metadata.md): [DocumentMetadata.Claim](../../eu.europa.ec.eudi.wallet.document.metadata/-document-metadata/-claim/index.md)? =
 null

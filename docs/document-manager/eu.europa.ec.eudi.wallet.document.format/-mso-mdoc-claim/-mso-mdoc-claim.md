@@ -6,5 +6,5 @@
 constructor(nameSpace: [NameSpace](../../eu.europa.ec.eudi.wallet.document/-name-space/index.md),
 elementIdentifier: [ElementIdentifier](../../eu.europa.ec.eudi.wallet.document/-element-identifier/index.md),
 elementValue: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?,
-metadata: [DocumentMetaData.Claim](../../eu.europa.ec.eudi.wallet.document.metadata/-document-meta-data/-claim/index.md)? =
+metadata: [DocumentMetadata.Claim](../../eu.europa.ec.eudi.wallet.document.metadata/-document-metadata/-claim/index.md)? =
 null)

@@ -6,7 +6,7 @@
 open override fun [createDocument](create-document.md)(
 format: [DocumentFormat](../../eu.europa.ec.eudi.wallet.document.format/-document-format/index.md),
 createSettings: [CreateDocumentSettings](../-create-document-settings/index.md),
-documentMetaData: [DocumentMetaData](../../eu.europa.ec.eudi.wallet.document.metadata/-document-meta-data/index.md)?): [Outcome](../-outcome/index.md)
+documentMetadata: [DocumentMetadata](../../eu.europa.ec.eudi.wallet.document.metadata/-document-metadata/index.md)?): [Outcome](../-outcome/index.md)
 &lt;[UnsignedDocument](../-unsigned-document/index.md)&gt;
 
 Create a new document. This method will create a new document with the given format and keys
@@ -26,8 +26,8 @@ error.
 
 androidJvm
 
-|                  |                                                                                                                                       |
-|------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| format           | the format of the document                                                                                                            |
-| createSettings   | the [CreateDocumentSettings](../-create-document-settings/index.md) to use for the new document                                       |
-| documentMetaData | the [DocumentMetaData](../../eu.europa.ec.eudi.wallet.document.metadata/-document-meta-data/index.md) data regarding document display |
+|                  |                                                                                                                                      |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| format           | the format of the document                                                                                                           |
+| createSettings   | the [CreateDocumentSettings](../-create-document-settings/index.md) to use for the new document                                      |
+| documentMetadata | the [DocumentMetadata](../../eu.europa.ec.eudi.wallet.document.metadata/-document-metadata/index.md) data regarding document display |

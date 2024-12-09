@@ -6,4 +6,4 @@
 constructor(
 identifier: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html),
 value: [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)?,
-metadata: [DocumentMetaData.Claim](../../../eu.europa.ec.eudi.wallet.document.metadata/-document-meta-data/-claim/index.md)?)
+metadata: [DocumentMetadata.Claim](../../../eu.europa.ec.eudi.wallet.document.metadata/-document-metadata/-claim/index.md)?)

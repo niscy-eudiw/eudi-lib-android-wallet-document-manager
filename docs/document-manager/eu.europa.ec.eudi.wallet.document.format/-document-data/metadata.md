@@ -4,4 +4,4 @@
 
 [androidJvm]\
 abstract
-val [metadata](metadata.md): [DocumentMetaData](../../eu.europa.ec.eudi.wallet.document.metadata/-document-meta-data/index.md)?
+val [metadata](metadata.md): [DocumentMetadata](../../eu.europa.ec.eudi.wallet.document.metadata/-document-metadata/index.md)?

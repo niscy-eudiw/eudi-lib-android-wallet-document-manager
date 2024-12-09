@@ -4,5 +4,5 @@
 
 [androidJvm]\
 constructor(format: [MsoMdocFormat](../-mso-mdoc-format/index.md), nameSpacedData: NameSpacedData,
-metadata: [DocumentMetaData](../../eu.europa.ec.eudi.wallet.document.metadata/-document-meta-data/index.md)? =
+metadata: [DocumentMetadata](../../eu.europa.ec.eudi.wallet.document.metadata/-document-metadata/index.md)? =
 null)
