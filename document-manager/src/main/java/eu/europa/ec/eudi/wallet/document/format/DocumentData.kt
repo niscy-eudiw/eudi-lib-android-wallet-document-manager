@@ -16,18 +16,36 @@
 
 package eu.europa.ec.eudi.wallet.document.format
 
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
+
 /**
  * Container for the document data.
  * This interface is used to represent the document data and it is implemented
  * according to the document format.
- * The document data contains the format and the claims of the document.
+ * The document data contains the format, the metadata and the claims of the document
  * @see [DocumentFormat]
+ * @see [DocumentMetaData]
  *
  * @property format The document format.
  * @property claims The list of document claims.
+ * @property metadata The document metadata.
  */
 sealed interface DocumentData {
     val format: DocumentFormat
+    val claims: List<Claim>
+    val metadata: DocumentMetaData?
 
-    val claims: List<DocumentClaim>
+    /**
+     * Document claim.
+     *
+     * @property identifier The claim identifier.
+     * @property value The claim value.
+     * @property metadata The claim metadata.
+     */
+    open class Claim(
+        val identifier: String,
+        val value: Any?,
+        open val metadata: DocumentMetaData.Claim?
+    )
 }
+

@@ -20,7 +20,6 @@ Will not be supported in future. Get the documents values by using the data prop
 ```kotlin
 data
 ```
-
 ---
 
 Extension function to convert [IssuedDocument](-issued-document/index.md)'s nameSpacedData

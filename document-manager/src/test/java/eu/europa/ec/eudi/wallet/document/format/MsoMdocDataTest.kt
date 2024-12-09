@@ -27,6 +27,7 @@ import eu.europa.ec.eudi.wallet.document.CreateDocumentSettings.Companion.invoke
 import eu.europa.ec.eudi.wallet.document.DocumentManagerImpl
 import eu.europa.ec.eudi.wallet.document.IssuedDocument
 import eu.europa.ec.eudi.wallet.document.getResourceAsText
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
 import kotlinx.datetime.LocalDate
 import java.time.ZonedDateTime
 import kotlin.test.AfterTest
@@ -60,13 +61,36 @@ class MsoMdocDataTest {
         // set checkMsoKey to false to avoid checking the MSO key
         // since we are using fixed issuer data
         documentManager.checkMsoKey = false
+
+        val metadata = DocumentMetaData(
+            display = listOf(
+                DocumentMetaData.Display(
+                    name = "EU PID"
+                )
+            ),
+            claims = listOf(
+                DocumentMetaData.Claim(
+                    name = DocumentMetaData.Claim.Name.MsoMdoc(
+                        nameSpace = "eu.europa.ec.eudi.pid.1",
+                        name = "given_name"
+                    ),
+                    display = listOf(
+                        DocumentMetaData.Claim.Display(
+                            name = "Given name"
+                        )
+                    ),
+                )
+            )
+        )
+
         val createKeySettings = SoftwareCreateKeySettings.Builder().build()
         val createDocumentResult = documentManager.createDocument(
             format = MsoMdocFormat(docType = "eu.europa.ec.eudi.pid.1"),
             createSettings = CreateDocumentSettings(
                 secureAreaIdentifier = secureArea.identifier,
                 createKeySettings = createKeySettings
-            )
+            ),
+            documentMetaData = metadata
         )
         assertTrue(createDocumentResult.isSuccess)
         val unsignedDocument = createDocumentResult.getOrThrow()
@@ -108,5 +132,21 @@ class MsoMdocDataTest {
         assertIs<ZonedDateTime>(msoMdocData.claims.firstOrNull { it.nameSpace == "eu.europa.ec.eudi.pid.1" && it.elementIdentifier == "issuance_date" }?.elementValue)
         assertIs<ZonedDateTime>(msoMdocData.claims.firstOrNull { it.nameSpace == "eu.europa.ec.eudi.pid.1" && it.elementIdentifier == "expiry_date" }?.elementValue)
         assertIs<LocalDate>(msoMdocData.claims.firstOrNull { it.nameSpace == "eu.europa.ec.eudi.pid.1" && it.elementIdentifier == "birth_date" }?.elementValue)
+    }
+
+    @Test
+    fun `MsoMdocData should contain metadata for claim given_name`() {
+        val metadata = issuedDocument.metadata
+        assertEquals(1, metadata?.claims?.size)
+        assertEquals("Given name", metadata?.claims?.firstOrNull()?.display?.firstOrNull()?.name)
+
+        val msoMdocData = issuedDocument.data as MsoMdocData
+
+        val firstNameMetadata =
+            msoMdocData.claims.first { it.nameSpace == "eu.europa.ec.eudi.pid.1" && it.elementIdentifier == "given_name" }
+                .metadata
+
+        assertEquals("Given name", firstNameMetadata?.display?.firstOrNull()?.name)
+
     }
 }

@@ -18,6 +18,7 @@ package eu.europa.ec.eudi.wallet.document.format
 
 import eu.europa.ec.eudi.wallet.document.ElementIdentifier
 import eu.europa.ec.eudi.wallet.document.NameSpace
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
 
 /**
  * A document claim that is part of a MsoMdoc document.
@@ -26,9 +27,11 @@ import eu.europa.ec.eudi.wallet.document.NameSpace
  * @property elementValue The value of the claim.
  * @property identifier The identifier of the claim.
  * @property value The value of the claim.
+ * @property metadata The metadata of the claim.
  */
 data class MsoMdocClaim(
     val nameSpace: NameSpace,
     val elementIdentifier: ElementIdentifier,
-    val elementValue: Any?
-) : DocumentClaim(elementIdentifier, elementValue)
+    val elementValue: Any?,
+    override val metadata: DocumentMetaData.Claim? = null
+) : DocumentData.Claim(elementIdentifier, elementValue, metadata)

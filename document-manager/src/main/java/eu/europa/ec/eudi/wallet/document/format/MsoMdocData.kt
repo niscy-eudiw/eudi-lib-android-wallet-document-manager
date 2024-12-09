@@ -22,12 +22,14 @@ import eu.europa.ec.eudi.wallet.document.DocType
 import eu.europa.ec.eudi.wallet.document.NameSpacedValues
 import eu.europa.ec.eudi.wallet.document.NameSpaces
 import eu.europa.ec.eudi.wallet.document.internal.toObject
+import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
 
 /**
  * Represents a document data in the MsoMdoc format.
  *
  * @property format the format of the document data
  * @property claims the claims of the document
+ * @property metadata the metadata of the document
  * @property docType the type of the document
  * @property nameSpacedData the name spaced data of the document
  * @property nameSpacedDataInBytes the name spaced data of the document in bytes
@@ -36,7 +38,8 @@ import eu.europa.ec.eudi.wallet.document.internal.toObject
  */
 data class MsoMdocData(
     override val format: MsoMdocFormat,
-    val nameSpacedData: NameSpacedData
+    val nameSpacedData: NameSpacedData,
+    override val metadata: DocumentMetaData? = null
 ) : DocumentData {
     val docType: DocType
         get() = format.docType
@@ -44,7 +47,13 @@ data class MsoMdocData(
     override val claims: List<MsoMdocClaim>
         get() = nameSpacedDataDecoded.flatMap { (nameSpace, elements) ->
             elements.map { (elementName, elementValue) ->
-                MsoMdocClaim(nameSpace, elementName, elementValue)
+                MsoMdocClaim(nameSpace = nameSpace,
+                    elementIdentifier = elementName,
+                    elementValue = elementValue,
+                    metadata = metadata?.claims?.firstOrNull {
+                        val n = it.name as? DocumentMetaData.Claim.Name.MsoMdoc
+                        n?.nameSpace == nameSpace && n.name == elementName
+                    })
             }
         }
 

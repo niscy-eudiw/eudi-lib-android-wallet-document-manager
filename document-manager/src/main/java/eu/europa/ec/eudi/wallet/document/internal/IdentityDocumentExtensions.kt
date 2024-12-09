@@ -224,12 +224,12 @@ internal inline fun <reified D : Document> IdentityDocument.toDocument(): D {
             data = when (documentFormat) {
                 is MsoMdocFormat -> MsoMdocData(
                     format = documentFormat,
-                    nameSpacedData = nameSpacedData
+                    nameSpacedData = nameSpacedData,
+                    metadata = metadata,
                 )
 
                 else -> TODO("Currently, only mso_mdoc format is supported")
             },
-            metadata = metadata
         )
 
         DocumentState.DEFERRED -> DeferredDocument(
