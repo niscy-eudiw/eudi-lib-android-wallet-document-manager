@@ -22,8 +22,8 @@ import eu.europa.ec.eudi.wallet.document.format.MsoMdocData
 import io.mockk.mockk
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toJavaInstant
-import org.junit.Assert
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.days
 
 
@@ -42,6 +42,9 @@ class TestIssuedDocumentExtensions {
                 Add(1)
                 Add("string")
                 Add("AQID")
+                Add(CBORObject.FromObjectAndTag("2023-11-09T00:01:02Z", 0))
+                Add(CBORObject.FromObjectAndTag("2023-11-09", 1004))
+                Add(CBORObject.FromObjectAndTag(CBORObject.FromObject("test").EncodeToBytes(), 24))
             }.EncodeToBytes())
             .build()
 
@@ -63,29 +66,35 @@ class TestIssuedDocumentExtensions {
 
         val json = issuedDocument.nameSpacedDataJSONObject
 
-        Assert.assertEquals(3, json.keys().asSequence().toList().size)
-        Assert.assertEquals(2, json.getJSONObject("namespace1").keys().asSequence().toList().size)
-        Assert.assertEquals(2, json.getJSONObject("namespace2").keys().asSequence().toList().size)
-        Assert.assertEquals(1, json.getJSONObject("namespace3").keys().asSequence().toList().size)
+        assertEquals(3, json.keys().asSequence().toList().size)
+        assertEquals(2, json.getJSONObject("namespace1").keys().asSequence().toList().size)
+        assertEquals(2, json.getJSONObject("namespace2").keys().asSequence().toList().size)
+        assertEquals(1, json.getJSONObject("namespace3").keys().asSequence().toList().size)
 
-        Assert.assertEquals(1, json.getJSONObject("namespace1").getInt("element1"))
-        Assert.assertEquals("AQID", json.getJSONObject("namespace1").getString("element2"))
+        assertEquals(1, json.getJSONObject("namespace1").getInt("element1"))
+        assertEquals("AQID", json.getJSONObject("namespace1").getString("element2"))
 
-        Assert.assertEquals("value3", json.getJSONObject("namespace2").getString("element3"))
-        Assert.assertEquals(
+        assertEquals("value3", json.getJSONObject("namespace2").getString("element3"))
+        assertEquals(
             "2023-11-09T00:01:02Z",
             json.getJSONObject("namespace2").getJSONObject("element4").getString("subelement1")
         )
-        Assert.assertEquals(
+        assertEquals(
             5.4f,
             json.getJSONObject("namespace2").getJSONObject("element4").getDouble("subelement2")
                 .toFloat(),
             0.0001f
         )
 
-        Assert.assertEquals(1, json.getJSONObject("namespace3").getJSONArray("element1")[0])
-        Assert.assertEquals("string", json.getJSONObject("namespace3").getJSONArray("element1")[1])
-        Assert.assertEquals("AQID", json.getJSONObject("namespace3").getJSONArray("element1")[2])
+        assertEquals(1, json.getJSONObject("namespace3").getJSONArray("element1")[0])
+        assertEquals("string", json.getJSONObject("namespace3").getJSONArray("element1")[1])
+        assertEquals("AQID", json.getJSONObject("namespace3").getJSONArray("element1")[2])
+        assertEquals(
+            "2023-11-09T00:01:02Z",
+            json.getJSONObject("namespace3").getJSONArray("element1")[3]
+        )
+        assertEquals("2023-11-09", json.getJSONObject("namespace3").getJSONArray("element1")[4])
+        assertEquals("test", json.getJSONObject("namespace3").getJSONArray("element1")[5])
 
     }
 }

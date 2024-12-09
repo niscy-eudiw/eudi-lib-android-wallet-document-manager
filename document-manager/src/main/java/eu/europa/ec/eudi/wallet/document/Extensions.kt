@@ -18,7 +18,12 @@
 package eu.europa.ec.eudi.wallet.document
 
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocData
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.format
 import org.json.JSONObject
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Base64
 
 /**
  * Extension function to convert [IssuedDocument]'s nameSpacedData to [JSONObject]
@@ -27,10 +32,32 @@ import org.json.JSONObject
  * @return [JSONObject]
  */
 @get:JvmName("nameSpacedDataAsJSONObject")
+@Deprecated(
+    "Will not be supported in future. Get the documents values by using the data property",
+    ReplaceWith("data")
+)
 val IssuedDocument.nameSpacedDataJSONObject: JSONObject
-    get() = when (data) {
-        is MsoMdocData -> JSONObject(data.nameSpacedDataDecoded)
-        else -> JSONObject()
+    get() {
+        fun parseValue(value: Any?): Any? {
+            return when (value) {
+                null -> null
+                is ByteArray -> Base64.getEncoder().encodeToString(value)
+                is ZonedDateTime -> value.format(DateTimeFormatter.ISO_ZONED_DATE_TIME)
+                is LocalDate -> value.format(LocalDate.Formats.ISO)
+                is Map<*, *> -> value.mapValues { (_, v) -> parseValue(v) }
+                is Collection<*> -> value.map { parseValue(it) }
+                else -> value
+            }
+        }
+
+
+        return when (data) {
+            is MsoMdocData -> JSONObject(data.nameSpacedDataDecoded.mapValues { (_, elements) ->
+                elements.mapValues { (_, value) -> parseValue(value) }
+            })
+
+            else -> JSONObject()
+        }
     }
 
 /**

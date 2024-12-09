@@ -6,7 +6,22 @@
 
 @get:[JvmName](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-name/index.html)(name = &quot;nameSpacedDataAsJSONObject&quot;)
 
-val [IssuedDocument](-issued-document/index.md).[nameSpacedDataJSONObject](name-spaced-data-j-s-o-n-object.md): [JSONObject](https://developer.android.com/reference/kotlin/org/json/JSONObject.html)
+val [IssuedDocument](-issued-document/index.md).[~~
+nameSpacedDataJSONObject~~](name-spaced-data-j-s-o-n-object.md): [JSONObject](https://developer.android.com/reference/kotlin/org/json/JSONObject.html)
+
+---
+
+### Deprecated
+
+Will not be supported in future. Get the documents values by using the data property
+
+#### Replace with
+
+```kotlin
+data
+```
+
+---
 
 Extension function to convert [IssuedDocument](-issued-document/index.md)'s nameSpacedData
 to [JSONObject](https://developer.android.com/reference/kotlin/org/json/JSONObject.html) Applicable

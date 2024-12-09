@@ -20,7 +20,8 @@ import com.android.identity.document.NameSpacedData
 import com.upokecenter.cbor.CBORObject
 import com.upokecenter.cbor.CBORType
 import eu.europa.ec.eudi.wallet.document.NameSpace
-import java.util.Base64
+import kotlinx.datetime.LocalDate
+import java.time.ZonedDateTime
 
 
 @JvmSynthetic
@@ -58,8 +59,27 @@ private fun CBORObject.parse(): Any? = when {
     }
 
     else -> when (type) {
-        CBORType.ByteString -> Base64.getEncoder().encodeToString(GetByteString())
-        CBORType.TextString -> AsString()
+        CBORType.ByteString -> when {
+            HasMostOuterTag(24) -> getEmbeddedCBORObject().parse()
+            else -> GetByteString()
+        }
+
+        CBORType.TextString -> when {
+            HasMostOuterTag(0) -> try {
+                ZonedDateTime.parse(AsString())
+            } catch (_: Throwable) {
+                AsString()
+            }
+
+            HasMostOuterTag(1004) -> try {
+                LocalDate.parse(AsString())
+            } catch (_: Throwable) {
+                AsString()
+            }
+
+            else -> AsString()
+        }
+
         CBORType.Array -> values.map { it.parse() }.toList()
         CBORType.Map -> keys.associate { it.parse() to this[it].parse() }
         else -> null
