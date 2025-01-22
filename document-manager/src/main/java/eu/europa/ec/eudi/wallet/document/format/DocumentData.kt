@@ -18,11 +18,15 @@ package eu.europa.ec.eudi.wallet.document.format
 
 import com.android.identity.cbor.Cbor
 import com.android.identity.document.NameSpacedData
+import eu.europa.ec.eudi.sdjwt.DefaultSdJwtOps
+import eu.europa.ec.eudi.sdjwt.DefaultSdJwtOps.recreateClaimsAndDisclosuresPerClaim
 import eu.europa.ec.eudi.sdjwt.SdJwt
+import eu.europa.ec.eudi.sdjwt.vc.SelectPath.Default.select
 import eu.europa.ec.eudi.wallet.document.NameSpace
 import eu.europa.ec.eudi.wallet.document.NameSpacedValues
 import eu.europa.ec.eudi.wallet.document.NameSpaces
 import eu.europa.ec.eudi.wallet.document.internal.parse
+import eu.europa.ec.eudi.wallet.document.internal.serialize
 import eu.europa.ec.eudi.wallet.document.internal.toObject
 import eu.europa.ec.eudi.wallet.document.metadata.DocumentMetaData
 import kotlinx.serialization.json.JsonElement
@@ -149,28 +153,32 @@ data class SdJwtVcData(
     val sdJwtVc: SdJwt<Pair<String, Map<String, JsonElement>>>
 ) : DocumentData {
     override val claims: List<SdJwtVcClaim> by lazy {
-        val (_, claims) = sdJwtVc.jwt
-        val nonSelectivelyDisclosable = claims.filter {
-            !it.value.toString().contains("_sd") &&
-                    !it.key.contains("_sd")
-        }.map { it.key to it.value }
+        val (claims, disclosuresPerClaim) = DefaultSdJwtOps.unverifiedIssuanceFrom(sdJwtVc.serialize())
+            .getOrThrow().recreateClaimsAndDisclosuresPerClaim()
 
-        val selectivelyDisclosable = sdJwtVc.disclosures.filter {
-            !it.claim().second.toString().contains("_sd")
-        }.map { it.claim().first to it.claim().second }
-
-        (nonSelectivelyDisclosable + selectivelyDisclosable).map {
-            val metadataClaimName = DocumentMetaData.Claim.Name.SdJwtVc(
-                name = it.first,
-            )
-            SdJwtVcClaim(
-                identifier = it.first,
-                value = it.second.parse(),
-                rawValue = it.second.toString(),
-                selectivelyDisclosable = selectivelyDisclosable.contains(it),
-                metadata = metadata?.claims?.find { it.name == metadataClaimName }
-            )
+        val sdJwtVcClaims = mutableListOf<SdJwtVcClaim>()
+        for ((path, value, selectivelyDisclosable) in disclosuresPerClaim.map {
+            Triple(it.key, claims.select(it.key).getOrNull(), it.value.isNotEmpty())
+        }) {
+            var current = sdJwtVcClaims
+            for (key in path.value) {
+                val existingNode = current.find { it.identifier == key.toString() }
+                if (existingNode != null) {
+                    current = existingNode.children
+                } else {
+                    val newClaim = SdJwtVcClaim(
+                        identifier = key.toString(),
+                        value = value?.parse(),
+                        rawValue = value?.toString() ?: "",
+                        selectivelyDisclosable = selectivelyDisclosable,
+                        metadata = null
+                    )
+                    current.add(newClaim)
+                    current = newClaim.children
+                }
+            }
         }
+        return@lazy sdJwtVcClaims
     }
 }
 
@@ -180,6 +188,7 @@ data class SdJwtVcData(
  * @property value The value of the claim.
  * @property rawValue The raw value of the claim.
  * @property selectivelyDisclosable Whether the claim is selectively disclosable.
+ * @property children The children of the claim.
  * @property metadata The metadata of the claim.
  */
 data class SdJwtVcClaim(
@@ -187,5 +196,6 @@ data class SdJwtVcClaim(
     override val value: Any?,
     override val rawValue: String,
     override val metadata: DocumentMetaData.Claim?,
-    val selectivelyDisclosable: Boolean
+    val selectivelyDisclosable: Boolean,
+    val children: MutableList<SdJwtVcClaim> = mutableListOf()
 ) : DocumentClaim(identifier, value, rawValue, metadata)

@@ -18,6 +18,9 @@ package eu.europa.ec.eudi.wallet.document.internal
 
 import com.android.identity.cbor.Cbor
 import com.android.identity.crypto.EcPublicKey
+import eu.europa.ec.eudi.sdjwt.SdJwt
+import eu.europa.ec.eudi.sdjwt.SdJwtSpec.DISCLOSURE_SEPARATOR
+import kotlinx.serialization.json.JsonElement
 import java.security.SecureRandom
 
 internal val Int.randomBytes: ByteArray
@@ -36,3 +39,10 @@ internal val ByteArray.toEcPublicKey: EcPublicKey
 
 internal val ByteArray.sdJwtVcString: String
     get() = String(this, charset = Charsets.US_ASCII)
+
+internal fun SdJwt<Pair<String, Map<String, JsonElement>>>.serialize(): String {
+    return this.jwt.first + this.disclosures.joinToString(
+        separator = "",
+        prefix = "$DISCLOSURE_SEPARATOR"
+    ) { "~" + it.value } + "~"
+}
