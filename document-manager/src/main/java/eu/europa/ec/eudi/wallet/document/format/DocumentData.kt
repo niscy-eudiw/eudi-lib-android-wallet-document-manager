@@ -74,16 +74,13 @@ data class MsoMdocData(
     override val claims: List<MsoMdocClaim>
         get() = nameSpacedData.nameSpaceNames.flatMap { nameSpace ->
             nameSpacedData.getDataElementNames(nameSpace).map { identifier ->
-                val metadataClaimName = DocumentMetaData.Claim.Name.MsoMdoc(
-                    nameSpace = nameSpace,
-                    name = identifier
-                )
+                val metadataClaimName = listOf(nameSpace, identifier)
                 MsoMdocClaim(
                     nameSpace = nameSpace,
                     identifier = identifier,
                     value = nameSpacedData.getDataElement(nameSpace, identifier).toObject(),
                     rawValue = nameSpacedData.getDataElement(nameSpace, identifier),
-                    metadata = metadata?.claims?.find { it.name == metadataClaimName }
+                    metadata = metadata?.claims?.find { it.path == metadataClaimName }
                 )
             }
         }
@@ -163,15 +160,14 @@ data class SdJwtVcData(
                 if (existingNode != null) {
                     current = existingNode.children
                 } else {
-                    val metadataClaimName = DocumentMetaData.Claim.Name.SdJwtVc(
-                        name = key.toString()
-                    )
+                    val metadataClaimName = listOf(key.toString())
+
                     val newClaim = SdJwtVcClaim(
                         identifier = key.toString(),
                         value = value?.parse(),
                         rawValue = value?.toString() ?: "",
                         selectivelyDisclosable = selectivelyDisclosable,
-                        metadata = metadata?.claims?.find { it.name == metadataClaimName }
+                        metadata = metadata?.claims?.find { it.path == metadataClaimName }
                     )
                     current.add(newClaim)
                     current = newClaim.children
