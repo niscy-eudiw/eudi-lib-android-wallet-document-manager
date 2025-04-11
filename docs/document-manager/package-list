@@ -1,6 +1,12 @@
 $dokka.format:gfm-v1
 $dokka.linkExtension:md
 $dokka.location:eu.europa.ec.eudi.wallet.document.format////PointingToDeclaration/document-manager/eu.europa.ec.eudi.wallet.document.format/index.md
+$dokka.location:eu.europa.ec.eudi.wallet.document.format//collectAllPaths/#kotlin.collections.List[eu.europa.ec.eudi.wallet.document.format.SdJwtVcClaim]#kotlin.collections.List[kotlin.String]/PointingToDeclaration/document-manager/eu.europa.ec.eudi.wallet.document.format/collect-all-paths.md
+$dokka.location:eu.europa.ec.eudi.wallet.document.format//findClaimAtPath/#kotlin.collections.List[eu.europa.ec.eudi.wallet.document.format.SdJwtVcClaim]#kotlin.collections.List[kotlin.String]/PointingToDeclaration/document-manager/eu.europa.ec.eudi.wallet.document.format/find-claim-at-path.md
+$dokka.location:eu.europa.ec.eudi.wallet.document.format//findClaimAtPath/eu.europa.ec.eudi.wallet.document.IssuedDocument#kotlin.collections.List[kotlin.String]/PointingToDeclaration/document-manager/eu.europa.ec.eudi.wallet.document.format/find-claim-at-path.md
+$dokka.location:eu.europa.ec.eudi.wallet.document.format//getAllClaimPathsFrom/#kotlin.collections.List[eu.europa.ec.eudi.wallet.document.format.SdJwtVcClaim]#kotlin.collections.List[kotlin.String]/PointingToDeclaration/document-manager/eu.europa.ec.eudi.wallet.document.format/get-all-claim-paths-from.md
+$dokka.location:eu.europa.ec.eudi.wallet.document.format//getAllClaimPathsFrom/eu.europa.ec.eudi.wallet.document.IssuedDocument#kotlin.collections.List[kotlin.String]/PointingToDeclaration/document-manager/eu.europa.ec.eudi.wallet.document.format/get-all-claim-paths-from.md
+$dokka.location:eu.europa.ec.eudi.wallet.document.format/ClaimPath///PointingToDeclaration/document-manager/eu.europa.ec.eudi.wallet.document.format/-claim-path/index.md
 $dokka.location:eu.europa.ec.eudi.wallet.document.format/DocumentClaim///PointingToDeclaration/document-manager/eu.europa.ec.eudi.wallet.document.format/-document-claim/index.md
 $dokka.location:eu.europa.ec.eudi.wallet.document.format/DocumentClaim/identifier/#/PointingToDeclaration/document-manager/eu.europa.ec.eudi.wallet.document.format/-document-claim/identifier.md
 $dokka.location:eu.europa.ec.eudi.wallet.document.format/DocumentClaim/metadata/#/PointingToDeclaration/document-manager/eu.europa.ec.eudi.wallet.document.format/-document-claim/metadata.md
