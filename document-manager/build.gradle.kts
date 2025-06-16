@@ -117,7 +117,7 @@ dependencies {
     implementation(libs.cose)
 
     // sd-jwt-vc
-    implementation(libs.eudi.sd.jwt.vc.kt)
+    api(libs.eudi.sd.jwt.vc.kt)
 
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.content.negotiation)

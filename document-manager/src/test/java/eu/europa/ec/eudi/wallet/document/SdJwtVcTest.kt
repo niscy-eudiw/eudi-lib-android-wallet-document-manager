@@ -96,6 +96,7 @@ class SdJwtVcTest {
                         value = value?.parse(),
                         rawValue = value?.toString() ?: "",
                         selectivelyDisclosable = selectivelyDisclosable,
+                        claimPath = path,
                         metadata = null
                     )
                     current.add(newClaim)

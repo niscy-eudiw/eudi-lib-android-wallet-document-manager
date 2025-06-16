@@ -18,6 +18,7 @@ package eu.europa.ec.eudi.wallet.document.format
 
 import eu.europa.ec.eudi.sdjwt.DefaultSdJwtOps
 import eu.europa.ec.eudi.sdjwt.DefaultSdJwtOps.recreateClaimsAndDisclosuresPerClaim
+import eu.europa.ec.eudi.sdjwt.vc.ClaimPath
 import eu.europa.ec.eudi.sdjwt.vc.SelectPath.Default.select
 import eu.europa.ec.eudi.wallet.document.NameSpace
 import eu.europa.ec.eudi.wallet.document.NameSpacedValues
@@ -27,6 +28,7 @@ import eu.europa.ec.eudi.wallet.document.internal.toObject
 import eu.europa.ec.eudi.wallet.document.metadata.IssuerMetadata
 import org.multipaz.cbor.Cbor
 import org.multipaz.document.NameSpacedData
+import java.util.Locale
 
 /**
  * Represents the claims of a document.
@@ -52,7 +54,13 @@ sealed class DocumentClaim(
     open val value: Any?,
     open val rawValue: Any?,
     open val issuerMetadata: IssuerMetadata.Claim? = null
-)
+) {
+    fun getDisplayName(locale: Locale? = null, default: String = identifier): String {
+        return issuerMetadata?.display?.let { display ->
+            display.find { it.locale == locale }?.name
+        } ?: default
+    }
+}
 
 /**
  * Represents the claims of a document in the MsoMdoc format.
@@ -204,6 +212,7 @@ data class SdJwtVcData(
                             value = value?.parse(),
                             rawValue = value?.toString() ?: "",
                             selectivelyDisclosable = selectivelyDisclosable,
+                            claimPath = path,
                             metadata = issuerMetadata?.claims?.find { m -> m.path == path.value.map { it.toString() } }
                         )
                         // add the new claim to the current list of claims
@@ -242,6 +251,7 @@ data class SdJwtVcClaim(
     override val value: Any?,
     override val rawValue: String,
     override val issuerMetadata: IssuerMetadata.Claim?,
+    val path: ClaimPath,
     val selectivelyDisclosable: Boolean,
     val children: List<SdJwtVcClaim>
 ) : DocumentClaim(identifier, value, rawValue, issuerMetadata)
@@ -255,6 +265,7 @@ internal class MutableSdJwtClaim(
     val value: Any?,
     val rawValue: String,
     val metadata: IssuerMetadata.Claim?,
+    val claimPath: ClaimPath,
     val selectivelyDisclosable: Boolean,
     val children: MutableList<MutableSdJwtClaim> = mutableListOf()
 ) {
@@ -264,6 +275,7 @@ internal class MutableSdJwtClaim(
             value = value,
             rawValue = rawValue,
             issuerMetadata = metadata,
+            path = claimPath,
             selectivelyDisclosable = selectivelyDisclosable,
             children = children.map { it.toSdJwtVcClaim() }
         )
