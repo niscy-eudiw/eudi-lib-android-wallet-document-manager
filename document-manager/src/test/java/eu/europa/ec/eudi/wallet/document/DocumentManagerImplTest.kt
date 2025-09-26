@@ -96,7 +96,6 @@ class DocumentManagerImplTest {
         )
         assertTrue(createDocumentResult.isSuccess)
         val unsignedDocument = createDocumentResult.getOrThrow()
-        assertFalse(unsignedDocument.isCertified)
 
         // change document name
         unsignedDocument.name = "EU PID"
@@ -355,9 +354,6 @@ class DocumentManagerImplTest {
         assertEquals(unsignedDocument.id, deferredDocument.id)
         assertEquals(unsignedDocument.name, deferredDocument.name)
         assertEquals(documentManager.identifier, deferredDocument.documentManagerId)
-
-        // Verify document is in deferred state
-        assertFalse(deferredDocument.isCertified)
 
         // Verify we can retrieve the document from the manager
         val retrievedDocument = documentManager.getDocumentById(deferredDocument.id)

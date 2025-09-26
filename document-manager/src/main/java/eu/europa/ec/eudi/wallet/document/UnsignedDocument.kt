@@ -102,33 +102,4 @@ open class UnsignedDocument(
     override suspend fun credentialsCount(): Int {
         return getPoPSigners().size
     }
-
-    // Deprecated properties and methods moved to the end of the file
-
-    @Deprecated("Use getPoPSigners() instead to access credentials and their secure areas")
-    override val secureArea: SecureArea
-        get() = runBlocking { getPoPSigners().first().secureArea }
-
-    @Deprecated("For unsigned documents, this is always false. No replacement needed.")
-    override val isCertified: Boolean = false
-
-    @Deprecated("Use getPoPSigners().first().getKeyInfo() instead to access credential key information")
-    override val keyInfo: KeyInfo
-        get() = runBlocking {
-            getPoPSigners().first().getKeyInfo()
-        }
-
-    @Deprecated("Use getPoPSigners().first().getKeyInfo().alias instead to access credential key aliases")
-    override val keyAlias: String
-        get() = keyInfo.alias
-
-    @Deprecated("Use getPoPSigners().first().getKeyInfo().publicKey.toCoseBytes instead to access public keys")
-    override val publicKeyCoseBytes: ByteArray
-        get() = keyInfo.publicKey.toCoseBytes
-
-    @Deprecated("Use getPoPSigners() instead, which automatically filters out invalidated keys")
-    override val isKeyInvalidated: Boolean
-        get() = runBlocking {
-            secureArea.getKeyInvalidated(keyAlias)
-        }
 }

@@ -17,6 +17,7 @@
 package eu.europa.ec.eudi.wallet.document
 
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
+import eu.europa.ec.eudi.wallet.document.internal.toCoseBytes
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.multipaz.securearea.SecureArea
@@ -94,17 +95,18 @@ class UnsignedDocumentTest {
         assertIs<MsoMdocFormat>(unsignedDocument.format)
         assertEquals("test_document_manager", unsignedDocument.documentManagerId)
         assertNotNull(unsignedDocument.createdAt)
-        assertFalse(unsignedDocument.isCertified)
     }
 
     @Test
     fun `test key information access`() {
         // Should be able to access key information
         runBlocking {
-            assertNotNull(unsignedDocument.keyInfo)
-            assertNotNull(unsignedDocument.keyAlias)
-            assertNotNull(unsignedDocument.publicKeyCoseBytes)
-            assertFalse(unsignedDocument.isKeyInvalidated)
+            unsignedDocument.baseDocument
+            with(unsignedDocument.getPoPSigners().first()) {
+                assertNotNull(getKeyInfo())
+                assertNotNull(getKeyInfo().alias)
+                assertNotNull(getKeyInfo().publicKey.toCoseBytes)
+            }
         }
     }
 
@@ -126,8 +128,8 @@ class UnsignedDocumentTest {
 
             val firstSigner = popSigners.first()
             assertNotNull(firstSigner)
-            assertEquals(unsignedDocument.keyAlias, firstSigner.keyAlias)
-            assertEquals(unsignedDocument.secureArea, firstSigner.secureArea)
+            assertEquals(unsignedDocument.getPoPSigners().first().getKeyInfo().alias, popSigners.first().getKeyInfo().alias)
+            assertEquals(unsignedDocument.getPoPSigners().first().secureArea, firstSigner.secureArea)
 
             val keyInfo = firstSigner.getKeyInfo()
             assertNotNull(keyInfo)

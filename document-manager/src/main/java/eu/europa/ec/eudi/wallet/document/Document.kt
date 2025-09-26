@@ -18,8 +18,6 @@ package eu.europa.ec.eudi.wallet.document
 
 import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
 import eu.europa.ec.eudi.wallet.document.metadata.IssuerMetadata
-import org.multipaz.securearea.KeyInfo
-import org.multipaz.securearea.SecureArea
 import java.time.Instant
 
 /**
@@ -43,24 +41,6 @@ sealed interface Document {
     val documentManagerId: String
     val createdAt: Instant
     val issuerMetadata: IssuerMetadata?
-
-    @Deprecated("For UnsignedDocument, use getPoPSigners() to access key aliases. For IssuedDocument, use findCredential()?.alias")
-    val keyAlias: String
-
-    @Deprecated("For UnsignedDocument, use getPoPSigners() to access secure areas. For IssuedDocument, use findCredential()?.secureArea")
-    val secureArea: SecureArea
-
-    @Deprecated("For UnsignedDocument, this is always false. For IssuedDocument, use isCertified() method")
-    val isCertified: Boolean
-
-    @Deprecated("For UnsignedDocument, use getPoPSigners().first().getKeyInfo(). For IssuedDocument, use findCredential()?.secureArea.getKeyInfo()")
-    val keyInfo: KeyInfo
-
-    @Deprecated("For UnsignedDocument, use getPoPSigners().first().getKeyInfo().publicKey.toCoseBytes. For IssuedDocument, use findCredential()?.secureArea.getKeyInfo().publicKey.toCoseBytes")
-    val publicKeyCoseBytes: ByteArray
-
-    @Deprecated("For UnsignedDocument, use getPoPSigners() which filters out invalidated keys. For IssuedDocument, use findCredential()?.isInvalidated()")
-    val isKeyInvalidated: Boolean
 
     /**
      * Returns the number of valid credentials associated with this document.

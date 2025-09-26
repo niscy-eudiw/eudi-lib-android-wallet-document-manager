@@ -26,6 +26,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkObject
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.test.runTest
 import org.multipaz.cbor.Cbor
 import org.multipaz.cbor.DataItem
@@ -371,8 +372,7 @@ class IssuedDocumentTest {
                 certifiedCredentials = listOf(credential)
             )
         )
-
-        assert(issuedDocument.isValidAt(now.toJavaInstant()))
+        assertTrue(issuedDocument.findCredential(now.toJavaInstant())  != null)
     }
 
     @Test
@@ -393,7 +393,7 @@ class IssuedDocumentTest {
             )
         )
 
-        assert(!issuedDocument.isValidAt(now))
+        assertTrue(issuedDocument.findCredential(now) == null)
     }
 
     @Test
