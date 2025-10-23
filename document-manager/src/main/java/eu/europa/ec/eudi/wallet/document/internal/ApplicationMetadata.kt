@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2025 European Commission
+ *  Copyright (c) 2025 European Commission
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package eu.europa.ec.eudi.wallet.document.internal
@@ -21,16 +21,9 @@ import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
 import eu.europa.ec.eudi.wallet.document.format.SdJwtVcFormat
 import eu.europa.ec.eudi.wallet.document.metadata.IssuerMetadata
-import eu.europa.ec.eudi.wallet.document.metadata.IssuerMetadata.Companion.fromJson
 import kotlinx.io.bytestring.ByteString
-import org.multipaz.cbor.Bstr
-import org.multipaz.cbor.Cbor
-import org.multipaz.cbor.CborBuilder
-import org.multipaz.cbor.CborMap
 import org.multipaz.cbor.DataItem
-import org.multipaz.cbor.MapBuilder
-import org.multipaz.cbor.Tstr
-import org.multipaz.cbor.toDataItem
+import org.multipaz.cbor.annotation.CborSerializable
 import org.multipaz.cbor.toDataItemDateTimeString
 import org.multipaz.document.AbstractDocumentMetadata
 import org.multipaz.document.DocumentMetadata
@@ -122,9 +115,7 @@ internal interface ApplicationMetadata : AbstractDocumentMetadata {
     suspend fun initialize(
         documentManagerId: String,
         format: DocumentFormat,
-        initialCredentialsCount: Int,
-        credentialPolicy: CreateDocumentSettings.CredentialPolicy,
-        createdAt: Instant,
+        createSettings: CreateDocumentSettings,
         documentName: String,
         issuerMetadata: IssuerMetadata?,
         keyAttestation: String?
@@ -194,20 +185,23 @@ internal class ApplicationMetadataImpl private constructor(
 ) : ApplicationMetadata, AbstractDocumentMetadata by delegate {
 
     private var data: Data =
-        delegate.other?.let { Data.fromCbor(it) } ?: Data()
+        delegate.other?.let { Data.fromCbor(it.toByteArray()) } ?: Data()
 
     override val documentManagerId: String
-        get() = data.documentManagerId ?: throw IllegalStateException("Document manager ID not set")
+        get() = data.documentManagerId ?: error("Document manager ID not set")
     override val format: DocumentFormat
-        get() = data.format ?: throw IllegalStateException("Document format not set")
+        get() = data.format?.let {
+            DocumentFormat.fromDataItem(it)
+        } ?: error("Document format not set")
+
     override val initialCredentialsCount: Int
-        get() = data.initialCredentialsCount.also {
-            if (it == 0) throw IllegalStateException(
-                "Initial credentials count not set"
-            )
-        }
+        get() = data.initialCredentialsCount.takeIf { it > 0 }
+            ?: error("Initial credential count not set")
+
     override val credentialPolicy: CreateDocumentSettings.CredentialPolicy
-        get() = data.credentialPolicy ?: throw IllegalStateException("Credential policy not set")
+        get() = data.credentialPolicyType?.let {
+            CreateDocumentSettings.CredentialPolicy.fromDataItem(it)
+        } ?: error("Credential policy not set")
     override val documentName: String
         get() = displayName ?: when (format) {
             is MsoMdocFormat -> (format as MsoMdocFormat).docType
@@ -215,11 +209,16 @@ internal class ApplicationMetadataImpl private constructor(
         }
     override val keyAttestation: String?
         get() = data.keyAttestation
-    override val issuerMetadata: IssuerMetadata? get() = data.issuerMetadata
+    override val issuerMetadata: IssuerMetadata?
+        get() = data.issuerMetadata?.let {
+            IssuerMetadata.fromJson(
+                it
+            ).getOrNull()
+        }
     override val issuerProvidedData: ByteArray? get() = data.issuerProvidedData?.toByteArray()
     override val createdAt: Instant
-        get() = data.createdAt ?: throw IllegalStateException("Created at not set")
-    override val issuedAt: Instant? get() = data.issuedAt
+        get() = data.createdAt?.asDateTimeString ?: error("Created at not set")
+    override val issuedAt: Instant? get() = data.issuedAt?.asDateTimeString
     override val deferredRelatedData: ByteArray? get() = data.deferredRelatedData?.toByteArray()
 
 
@@ -227,81 +226,35 @@ internal class ApplicationMetadataImpl private constructor(
      * Internal data class for storing metadata fields in a serializable format.
      *
      * This class provides methods for CBOR serialization and deserialization of metadata.
+     * Note: We store format and policy as strings to avoid CBOR processor issues with type aliases.
+     *
+     * @property documentManagerId The unique identifier of the document manager handling this document
+     * @property formatType The type of document format ("mso_mdoc" or "sd_jwt_vc")
+     * @property formatValue The format-specific value (docType for MSO MDoc or vct for SD-JWT VC)
+     * @property initialCredentialsCount The number of credentials initially created for the document
+     * @property credentialPolicyType The credential policy type identifier ("OneTimeUse" or "RotateUse")
+     * @property keyAttestation Key attestation data in JSON format
+     * @property issuerMetadata Metadata about the document issuer in JSON format
+     * @property issuerProvidedData Data provided by the issuer during document issuance
+     * @property createdAt Timestamp in epoch milliseconds when the document was created
+     * @property issuedAt Timestamp in epoch milliseconds when the document was issued
+     * @property deferredRelatedData Data related to deferred issuance workflow
      */
+    @CborSerializable
     internal data class Data(
         val documentManagerId: String? = null,
-        val format: DocumentFormat? = null,
+        val format: DataItem? = null,
         val initialCredentialsCount: Int = 0,
-        val credentialPolicy: CreateDocumentSettings.CredentialPolicy? = null,
+        val credentialPolicyType: DataItem? = null,
         val keyAttestation: String? = null,
-        val issuerMetadata: IssuerMetadata? = null,
+        val issuerMetadata: String? = null,
         val issuerProvidedData: ByteString? = null,
-        val createdAt: Instant? = null,
-        val issuedAt: Instant? = null,
+        val createdAt: DataItem? = null,
+        val issuedAt: DataItem? = null,
         val deferredRelatedData: ByteString? = null,
     ) {
 
-        /**
-         * Converts this Data object to a CBOR encoded ByteString.
-         *
-         * @return CBOR representation of the metadata
-         */
-        fun toCbor(): ByteString {
-            val builder = CborMap.Companion.builder()
-
-            builder.putIfNotNull("documentManagerId", documentManagerId) { Tstr(it) }
-            builder.putIfNotNull("format", format) { it.toDataItem() }
-            builder.putIfNotNull(
-                "initialCredentialsCount",
-                initialCredentialsCount
-            ) { it.toDataItem() }
-            builder.putIfNotNull("credentialPolicy", credentialPolicy) { it.toDataItem() }
-            builder.putIfNotNull("createdAt", createdAt) { it.toDataItemDateTimeString() }
-            builder.putIfNotNull("keyAttestation", keyAttestation) { Tstr(it) }
-            builder.putIfNotNull("issuerMetadata", issuerMetadata) { Tstr(it.toJson()) }
-            builder.putIfNotNull(
-                "issuerProvidedData",
-                issuerProvidedData
-            ) { Bstr(it.toByteArray()) }
-            builder.putIfNotNull("issuedAt", issuedAt) { it.toDataItemDateTimeString() }
-            builder.putIfNotNull(
-                "deferredRelatedData",
-                deferredRelatedData
-            ) { Bstr(it.toByteArray()) }
-
-            val dataItem = builder.end().build()
-            return ByteString(Cbor.encode(dataItem))
-        }
-
-        companion object {
-            /**
-             * Creates a Data object from CBOR encoded ByteString.
-             *
-             * @param cbor The CBOR encoded metadata
-             * @return Deserialized Data object
-             */
-            fun fromCbor(cbor: ByteString): Data {
-                val dataItem = Cbor.decode(cbor.toByteArray())
-
-
-                return Data(
-                    format = DocumentFormat.Companion.fromDataItem(dataItem["format"]),
-                    documentManagerId = dataItem["documentManagerId"].asTstr,
-                    initialCredentialsCount = dataItem["initialCredentialsCount"].asNumber.toInt(),
-                    credentialPolicy = CreateDocumentSettings.CredentialPolicy.fromDataItem(dataItem["credentialPolicy"]),
-                    createdAt = dataItem.getValue("createdAt") { it.asDateTimeString },
-                    keyAttestation = dataItem.getValue("keyAttestation") { it.asTstr },
-                    issuerMetadata = dataItem.getValue("issuerMetadata") {
-                        fromJson(
-                            it.asTstr
-                        ).getOrNull()
-                    },
-                    issuerProvidedData = dataItem.getValue("issuerProvidedData") { ByteString(it.asBstr) },
-                    issuedAt = dataItem.getValue("issuedAt") { it.asDateTimeString },
-                    deferredRelatedData = dataItem.getValue("deferredRelatedData") { ByteString(it.asBstr) },
-                )
-            }
-        }
+        companion object
     }
 
     /**
@@ -313,20 +266,19 @@ internal class ApplicationMetadataImpl private constructor(
     override suspend fun initialize(
         documentManagerId: String,
         format: DocumentFormat,
-        initialCredentialsCount: Int,
-        credentialPolicy: CreateDocumentSettings.CredentialPolicy,
-        createdAt: Instant,
+        createSettings: CreateDocumentSettings,
         documentName: String,
         issuerMetadata: IssuerMetadata?,
         keyAttestation: String?
     ) {
+
         data = Data(
             documentManagerId = documentManagerId,
-            format = format,
-            createdAt = createdAt,
-            initialCredentialsCount = initialCredentialsCount,
-            credentialPolicy = credentialPolicy,
-            issuerMetadata = issuerMetadata,
+            format= format.toDataItem(),
+            createdAt = Clock.System.now().toDataItemDateTimeString(),
+            initialCredentialsCount = createSettings.numberOfCredentials,
+            credentialPolicyType = createSettings.credentialPolicy.toDataItem(),
+            issuerMetadata = issuerMetadata?.toJson(),
             keyAttestation = keyAttestation
         )
 
@@ -335,7 +287,7 @@ internal class ApplicationMetadataImpl private constructor(
             typeDisplayName = typeDisplayName,
             cardArt = cardArt,
             issuerLogo = issuerLogo,
-            other = data.toCbor()
+            other = ByteString(data.toCbor())
         )
     }
 
@@ -358,18 +310,17 @@ internal class ApplicationMetadataImpl private constructor(
         data = data.copy(
             issuerProvidedData = issuerProvidedData,
             deferredRelatedData = null,
-            issuedAt = Clock.System.now()
+            issuedAt = Clock.System.now().toDataItemDateTimeString()
         )
         setMetadata(
             displayName = documentName ?: displayName,
             typeDisplayName = typeDisplayName,
             cardArt = cardArt,
             issuerLogo = issuerLogo,
-            other = data.toCbor()
+            other = ByteString(data.toCbor())
         )
         markAsProvisioned()
     }
-
 
     /**
      * Sets up the document for deferred issuance.
@@ -389,7 +340,7 @@ internal class ApplicationMetadataImpl private constructor(
             typeDisplayName = typeDisplayName,
             cardArt = cardArt,
             issuerLogo = issuerLogo,
-            other = data.toCbor()
+            other = ByteString(data.toCbor())
         )
     }
 
@@ -408,7 +359,7 @@ internal class ApplicationMetadataImpl private constructor(
             typeDisplayName = typeDisplayName,
             cardArt = cardArt,
             issuerLogo = issuerLogo,
-            other = data.toCbor()
+            other = ByteString(data.toCbor())
         )
     }
 
@@ -432,30 +383,3 @@ internal class ApplicationMetadataImpl private constructor(
         }
     }
 }
-
-/**
- * Utility extension function to add a key-value pair to a CBOR map builder only if the value is not null.
- *
- * @param key The key for the map entry
- * @param value The value to add if not null
- * @param transform Function to transform the value to a CBOR DataItem
- */
-private inline fun <T> MapBuilder<CborBuilder>.putIfNotNull(
-    key: String,
-    value: T?,
-    transform: (T) -> DataItem
-) {
-    if (value != null) {
-        put(key, transform(value))
-    }
-}
-
-/**
- * Utility extension function to safely extract a value from a CBOR DataItem by key.
- *
- * @param key The key to look up in the CBOR map
- * @param extractor Function to extract and convert the value from the DataItem
- * @return The extracted value, or null if the key is not present
- */
-private inline fun <T> DataItem.getValue(key: String, extractor: (DataItem) -> T?): T? =
-    if (hasKey(key)) extractor(this[key]) else null

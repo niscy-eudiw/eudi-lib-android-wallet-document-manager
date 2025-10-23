@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2024-2025 European Commission
+ *  Copyright (c) 2024-2025 European Commission
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package eu.europa.ec.eudi.wallet.document
@@ -27,7 +27,7 @@ import eu.europa.ec.eudi.wallet.document.internal.applicationMetadata
 import eu.europa.ec.eudi.wallet.document.internal.documentManagerId
 import eu.europa.ec.eudi.wallet.document.internal.toDocument
 import eu.europa.ec.eudi.wallet.document.metadata.IssuerMetadata
-import io.ktor.client.HttpClient
+import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.io.bytestring.ByteString
 import org.jetbrains.annotations.VisibleForTesting
@@ -36,7 +36,6 @@ import org.multipaz.document.buildDocumentStore
 import org.multipaz.securearea.SecureAreaRepository
 import org.multipaz.storage.Storage
 import org.multipaz.util.Logger
-import kotlin.time.Clock
 
 /**
  * Default implementation of the [DocumentManager] interface for the EUDI Wallet.
@@ -198,10 +197,8 @@ class DocumentManagerImpl(
                             is MsoMdocFormat -> format.docType
                             is SdJwtVcFormat -> format.vct
                         },
-                        createdAt = Clock.System.now(),
+                        createSettings= createSettings,
                         issuerMetadata = issuerMetadata,
-                        initialCredentialsCount = createSettings.numberOfCredentials,
-                        credentialPolicy = createSettings.credentialPolicy,
                         keyAttestation = null,
                     )
                 }

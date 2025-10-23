@@ -20,6 +20,7 @@ eudi-sd-jwt-vc-kt = "0.10.0"
 nimbus = "9.47"
 ktor = "3.3.0"
 kover = "0.9.1"
+ksp = "2.1.21-2.0.1"
 
 [libraries]
 bouncy-castle-pkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncy-castle" }
@@ -40,6 +41,7 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 multipaz = { module = "org.multipaz:multipaz", version.ref = "multipaz" }
+multipaz-cbor-rpc = { module = "org.multipaz:multipaz-cbor-rpc", version.ref = "multipaz" }
 
 [plugins]
 android-library = { id = "com.android.library", version.ref = "agp" }
@@ -51,3 +53,4 @@ maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPubli
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

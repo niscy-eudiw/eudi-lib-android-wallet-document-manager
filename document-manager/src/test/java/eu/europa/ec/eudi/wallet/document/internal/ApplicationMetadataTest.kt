@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2024-2025 European Commission
+ *  Copyright (c) 2024-2025 European Commission
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package eu.europa.ec.eudi.wallet.document.internal
@@ -26,14 +26,9 @@ import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.test.runTest
 import kotlinx.io.bytestring.ByteString
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import kotlin.test.*
 import kotlin.time.Clock
+import kotlin.time.Instant
 
 class ApplicationMetadataTest {
 
@@ -197,17 +192,20 @@ class ApplicationMetadataTest {
             format = testFormat,
             documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
             issuerMetadata = issuerMetadata,
-            initialCredentialsCount = 2,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 2,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             keyAttestation = testKeyAttestation
         )
 
         assertEquals(testFormat, metadata.format)
         assertEquals(testDocumentName, metadata.documentName)
         assertEquals(testDocumentManagerId, metadata.documentManagerId)
-        assertEquals(testCreatedAt, metadata.createdAt)
+        assertIs<Instant>(metadata.createdAt)
         assertEquals(issuerMetadata, metadata.issuerMetadata)
         assertEquals(2, metadata.initialCredentialsCount)
         assertEquals(CreateDocumentSettings.CredentialPolicy.RotateUse, metadata.credentialPolicy)
@@ -229,9 +227,12 @@ class ApplicationMetadataTest {
             format = testSdJwtVcFormat,
             documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )
@@ -239,7 +240,7 @@ class ApplicationMetadataTest {
         assertEquals(testSdJwtVcFormat, metadata.format)
         assertEquals(testDocumentName, metadata.documentName)
         assertEquals(testDocumentManagerId, metadata.documentManagerId)
-        assertEquals(testCreatedAt, metadata.createdAt)
+        assertIs<Instant>(metadata.createdAt)
     }
 
     @Test
@@ -256,9 +257,12 @@ class ApplicationMetadataTest {
             format = testFormat,
             documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )
@@ -266,7 +270,7 @@ class ApplicationMetadataTest {
         assertEquals(testFormat, metadata.format)
         assertEquals(testDocumentName, metadata.documentName)
         assertEquals(testDocumentManagerId, metadata.documentManagerId)
-        assertEquals(testCreatedAt, metadata.createdAt)
+        assertIs<Instant>(metadata.createdAt)
         assertEquals(1, metadata.initialCredentialsCount) // Default value is 1
         assertNull(metadata.issuerMetadata)
         assertEquals(CreateDocumentSettings.CredentialPolicy.RotateUse, metadata.credentialPolicy)
@@ -286,9 +290,12 @@ class ApplicationMetadataTest {
             format = testFormat,
             documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )
@@ -316,9 +323,12 @@ class ApplicationMetadataTest {
             format = testFormat,
             documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )
@@ -351,9 +361,12 @@ class ApplicationMetadataTest {
             format = testFormat,
             documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )
@@ -380,9 +393,12 @@ class ApplicationMetadataTest {
             format = testFormat,
             documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )
@@ -409,9 +425,12 @@ class ApplicationMetadataTest {
             format = testFormat,
             documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )
@@ -442,9 +461,12 @@ class ApplicationMetadataTest {
             format = testFormat,
             documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )
@@ -471,9 +493,12 @@ class ApplicationMetadataTest {
             format = testFormat,
             documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )
@@ -499,9 +524,12 @@ class ApplicationMetadataTest {
             format = testFormat,
             documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )
@@ -534,11 +562,14 @@ class ApplicationMetadataTest {
 
         metadata.initialize(
             format = format,
-            documentName = testDocumentName,  // This will be overridden by our mock
+            documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )
@@ -563,11 +594,14 @@ class ApplicationMetadataTest {
 
         metadata.initialize(
             format = format,
-            documentName = testDocumentName,  // This will be overridden by our mock
+            documentName = testDocumentName,
             documentManagerId = testDocumentManagerId,
-            createdAt = testCreatedAt,
-            initialCredentialsCount = 1,
-            credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse,
+            createSettings = CreateDocumentSettings(
+                secureAreaIdentifier = "securearea",
+                createKeySettings = mockk(),
+                numberOfCredentials = 1,
+                credentialPolicy = CreateDocumentSettings.CredentialPolicy.RotateUse
+            ),
             issuerMetadata = null,
             keyAttestation = null
         )

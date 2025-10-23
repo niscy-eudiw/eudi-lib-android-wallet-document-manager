@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2024-2025 European Commission
- *  
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Copyright (c) 2024-2025 European Commission
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *  
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 import com.github.jk1.license.filter.ExcludeTransitiveDependenciesFilter
@@ -19,7 +19,7 @@ import com.github.jk1.license.filter.LicenseBundleNormalizer
 import com.github.jk1.license.filter.ReduceDuplicateLicensesFilter
 import com.github.jk1.license.render.InventoryMarkdownReportRenderer
 import com.vanniktech.maven.publish.AndroidMultiVariantLibrary
-import java.util.Locale
+import java.util.*
 
 plugins {
     alias(libs.plugins.kotlin.serialization)
@@ -31,6 +31,7 @@ plugins {
     alias(libs.plugins.sonarqube)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.kover)
+    alias(libs.plugins.ksp)
 }
 
 val NAMESPACE: String by project
@@ -105,7 +106,7 @@ dependencies {
         exclude(group = "org.bouncycastle")
         exclude(group = "io.ktor")
     }
-
+    ksp(libs.multipaz.cbor.rpc)
     implementation(libs.kotlinx.io.core)
     implementation(libs.kotlinx.io.bytestring)
     implementation(libs.kotlinx.serialization.json)

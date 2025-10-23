@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2024-2025 European Commission
+ *  Copyright (c) 2024-2025 European Commission
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package eu.europa.ec.eudi.wallet.document.metadata
 
-import eu.europa.ec.eudi.wallet.document.metadata.IssuerMetadata.Companion.fromJson
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -28,7 +27,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 import java.net.URI
-import java.util.Locale
+import java.util.*
 
 /**
  * Document metadata domain object for storage.
@@ -81,7 +80,7 @@ data class IssuerMetadata(
          * Create a [IssuerMetadata] object from a byte array of json string.
          * @param jsonByteArray the byte array representation of the object
          * @return the [IssuerMetadata] object
-         * @see [fromJson]
+         * @see [eu.europa.ec.eudi.wallet.document.metadata.IssuerMetadata.Companion.fromJson]
          * @throws IllegalArgumentException if the decoded input cannot be represented as a valid instance of [IssuerMetadata]
          * @throws SerializationException if the given bytearray of JSON string is not a valid JSON input
          */
@@ -183,7 +182,7 @@ internal object LocaleSerializer : KSerializer<Locale> {
         Locale.forLanguageTag(decoder.decodeString())
 
     override fun serialize(encoder: Encoder, value: Locale) =
-        encoder.encodeString(value.toString())
+        encoder.encodeString(value.toLanguageTag())
 }
 
 /**
