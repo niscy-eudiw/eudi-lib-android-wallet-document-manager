@@ -25,11 +25,15 @@ import eu.europa.ec.eudi.wallet.document.credential.IssuerProvidedCredential
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
 import eu.europa.ec.eudi.wallet.document.internal.generateData
 import eu.europa.ec.eudi.wallet.document.internal.generateMso
+import eu.europa.ec.eudi.wallet.document.internal.parseCertificateFromPem
+import eu.europa.ec.eudi.wallet.document.internal.parsePrivateKeyFromPem
 import eu.europa.ec.eudi.wallet.document.internal.signMso
 import kotlinx.coroutines.runBlocking
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.jetbrains.annotations.VisibleForTesting
+import java.security.PrivateKey
 import java.security.Security
+import java.security.cert.X509Certificate
 
 /**
  * A [SampleDocumentManager] implementation that composes a [DocumentManager] and provides methods to load sample data.
@@ -48,10 +52,15 @@ class SampleDocumentManagerImpl(
 
     override fun loadMdocSampleDocuments(
         sampleData: ByteArray,
+        signerPrivateKeyPem: String,
+        signerCertificatePem: String,
         createSettings: CreateDocumentSettings,
         documentNamesMap: Map<DocType, String>?
     ): Outcome<List<DocumentId>> {
         try {
+            val issuerPrivateKey :PrivateKey  = parsePrivateKeyFromPem(signerPrivateKeyPem)
+            val issuerCertificate : X509Certificate = parseCertificateFromPem(signerCertificatePem)
+
             val documentIds = mutableListOf<DocumentId>()
             val cbor = CBORObject.DecodeFromBytes(sampleData)
             val documents = cbor["documents"]
@@ -68,7 +77,7 @@ class SampleDocumentManagerImpl(
                     unsignedDocument.getPoPSigners().map {
                         val authKey = it.getKeyInfo()
                         val mso = generateMso(DIGEST_ALG, docType, authKey.publicKey, nameSpaces)
-                        val issuerAuth = signMso(mso)
+                        val issuerAuth = signMso(mso, issuerPrivateKey, issuerCertificate)
                         IssuerProvidedCredential(
                             publicKeyAlias = authKey.alias,
                             data = generateData(nameSpaces, issuerAuth)

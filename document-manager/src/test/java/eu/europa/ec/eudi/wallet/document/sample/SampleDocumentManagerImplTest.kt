@@ -20,6 +20,8 @@ import android.util.Log
 import eu.europa.ec.eudi.wallet.document.CreateDocumentSettings
 import eu.europa.ec.eudi.wallet.document.DocumentManagerImpl
 import eu.europa.ec.eudi.wallet.document.IssuedDocument
+import eu.europa.ec.eudi.wallet.document.TEST_ISSUER_CERTIFICATE_PEM
+import eu.europa.ec.eudi.wallet.document.TEST_ISSUER_PRIVATE_KEY_PEM
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocData
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
 import eu.europa.ec.eudi.wallet.document.getResourceAsText
@@ -89,6 +91,8 @@ class SampleDocumentManagerImplTest {
             val createKeySettings = SoftwareCreateKeySettings.Builder().build()
             val loadResult = documentManager.loadMdocSampleDocuments(
                 sampleData = sampleDocuments,
+                signerPrivateKeyPem = TEST_ISSUER_PRIVATE_KEY_PEM,
+                signerCertificatePem = TEST_ISSUER_CERTIFICATE_PEM,
                 createSettings = CreateDocumentSettings(
                     secureAreaIdentifier = secureArea.identifier,
                     createKeySettings = createKeySettings,
@@ -150,6 +154,8 @@ class SampleDocumentManagerImplTest {
         val createKeySettings = SoftwareCreateKeySettings.Builder().build()
         documentManager.loadMdocSampleDocuments(
             sampleData = sampleDocuments,
+            signerPrivateKeyPem = TEST_ISSUER_PRIVATE_KEY_PEM,
+            signerCertificatePem = TEST_ISSUER_CERTIFICATE_PEM,
             createSettings = CreateDocumentSettings(
                 secureAreaIdentifier = secureArea.identifier,
                 createKeySettings = createKeySettings,

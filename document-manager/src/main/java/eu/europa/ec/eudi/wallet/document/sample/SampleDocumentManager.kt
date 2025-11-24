@@ -52,9 +52,11 @@ import eu.europa.ec.eudi.wallet.document.Outcome
  */
 interface SampleDocumentManager : DocumentManager {
     /**
-     * Loads the sample documents that are in mdoc format into the document manager.
+     * Loads the sample documents that are in mdoc format into the document manager with external signing credentials.
      *
      * @param sampleData the sample data in mdoc format to be loaded in cbor format
+     * @param signerPrivateKeyPem the signer's private key in PEM format
+     * @param signerCertificatePem the signer's certificate in PEM format
      * @param createSettings the settings for creating new documents for the sample
      * @param documentNamesMap the names of the documents per docType
      * @return returns the documentIds if successfully loaded, otherwise a error
@@ -88,6 +90,8 @@ interface SampleDocumentManager : DocumentManager {
      */
     fun loadMdocSampleDocuments(
         sampleData: ByteArray,
+        signerPrivateKeyPem: String,
+        signerCertificatePem: String,
         createSettings: CreateDocumentSettings,
         documentNamesMap: Map<DocType, String>? = null
     ): Outcome<List<DocumentId>>
