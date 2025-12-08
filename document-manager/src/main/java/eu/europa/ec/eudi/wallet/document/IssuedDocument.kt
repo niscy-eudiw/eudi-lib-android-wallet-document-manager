@@ -33,8 +33,8 @@ import kotlinx.coroutines.runBlocking
 import org.multipaz.credential.SecureAreaBoundCredential
 import org.multipaz.crypto.EcSignature
 import org.multipaz.securearea.KeyInfo
-import org.multipaz.securearea.KeyUnlockData
 import org.multipaz.securearea.SecureArea
+import org.multipaz.securearea.UnlockReason
 import java.time.Instant
 import kotlin.time.Clock
 import kotlin.time.toJavaInstant
@@ -253,18 +253,18 @@ class IssuedDocument(
      * and then applies the document's credential policy to the used credential.
      *
      * @param dataToSign The byte array containing the data to be signed
-     * @param keyUnlockData Optional data required to unlock the key if it's protected
+     * @param unlockReason Reason for unlocking the key, used for authentication prompts
      * @return A [Result] containing the [EcSignature] or an exception if the operation failed
      */
     suspend fun signConsumingCredential(
         dataToSign: ByteArray,
-        keyUnlockData: KeyUnlockData? = null
+        unlockReason: UnlockReason = UnlockReason.Unspecified
     ): Result<EcSignature> {
         return consumingCredential {
             secureArea.sign(
                 alias = alias,
                 dataToSign = dataToSign,
-                keyUnlockData = keyUnlockData
+                unlockReason = unlockReason
             )
         }
     }
@@ -279,18 +279,18 @@ class IssuedDocument(
      * usage count is incremented.
      *
      * @param otherPublicKey The public key of the other party as a byte array
-     * @param keyUnlockData Optional data required to unlock the key if it's protected
+     * @param unlockReason Reason for unlocking the key, used for authentication prompts
      * @return A [Result] containing the [SharedSecret] or an exception if the operation failed
      */
     suspend fun keyAgreementConsumingCredential(
         otherPublicKey: ByteArray,
-        keyUnlockData: KeyUnlockData? = null
+        unlockReason: UnlockReason = UnlockReason.Unspecified
     ): Result<SharedSecret> {
         return consumingCredential {
             secureArea.keyAgreement(
                 alias = alias,
                 otherKey = otherPublicKey.toEcPublicKey,
-                keyUnlockData = keyUnlockData
+                unlockReason = unlockReason
             )
         }
     }
@@ -374,16 +374,16 @@ class IssuedDocument(
      * for the provided data. After signing, it applies the document's credential policy.
      *
      * @param dataToSign The byte array containing the data to be signed
-     * @param keyUnlockData Optional data required to unlock the key if it's protected
+     * @param unlockReason Reason for unlocking the key, used for authentication prompts
      * @return An [Outcome] containing either the [EcSignature] or a failure reason
      */
     @Deprecated("use signConsumingCredential method instead")
     fun sign(
         dataToSign: ByteArray,
-        keyUnlockData: KeyUnlockData? = null
+        unlockReason: UnlockReason = UnlockReason.Unspecified
     ): Outcome<EcSignature> {
         return runBlocking {
-            signConsumingCredential(dataToSign, keyUnlockData)
+            signConsumingCredential(dataToSign, unlockReason)
         }.fold(
             onSuccess = { Outcome.success(it) },
             onFailure = { Outcome.failure(it) }
@@ -398,16 +398,16 @@ class IssuedDocument(
      * After the operation, it applies the document's credential policy.
      *
      * @param otherPublicKey The public key of the other party as a byte array
-     * @param keyUnlockData Optional data required to unlock the document's key if it's protected
+     * @param unlockReason Reason for unlocking the key, used for authentication prompts
      * @return An [Outcome] containing either the [SharedSecret] or a failure reason
      */
     @Deprecated("use keyAgreementConsumingCredential method instead")
     fun keyAgreement(
         otherPublicKey: ByteArray,
-        keyUnlockData: KeyUnlockData? = null
+        unlockReason: UnlockReason = UnlockReason.Unspecified
     ): Outcome<SharedSecret> {
         return runBlocking {
-            keyAgreementConsumingCredential(otherPublicKey, keyUnlockData)
+            keyAgreementConsumingCredential(otherPublicKey, unlockReason)
                 .fold(
                     onSuccess = { Outcome.success(it) },
                     onFailure = { Outcome.failure(it) }

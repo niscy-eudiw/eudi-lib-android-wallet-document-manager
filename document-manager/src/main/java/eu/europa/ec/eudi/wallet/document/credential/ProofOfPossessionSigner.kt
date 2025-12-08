@@ -19,8 +19,8 @@ package eu.europa.ec.eudi.wallet.document.credential
 import org.multipaz.credential.SecureAreaBoundCredential
 import org.multipaz.crypto.EcSignature
 import org.multipaz.securearea.KeyInfo
-import org.multipaz.securearea.KeyUnlockData
 import org.multipaz.securearea.SecureArea
+import org.multipaz.securearea.UnlockReason
 
 /**
  * A collection of [ProofOfPossessionSigner] instances.
@@ -58,10 +58,10 @@ interface ProofOfPossessionSigner {
      * Signs the provided data to create a Proof of Possession signature.
      *
      * @param dataToSign The data bytes to be signed.
-     * @param keyUnlockData Optional data required to unlock the key for signing operations.
+     * @param unlockReason Reason for unlocking the key, used for authentication prompts.
      * @return An [EcSignature] containing the signature data.
      */
-    suspend fun signPoP(dataToSign: ByteArray, keyUnlockData: KeyUnlockData?): EcSignature
+    suspend fun signPoP(dataToSign: ByteArray, unlockReason: UnlockReason = UnlockReason.Unspecified): EcSignature
 
     companion object {
         operator fun invoke(credential: SecureAreaBoundCredential): ProofOfPossessionSigner {
@@ -96,17 +96,17 @@ class ProofOfPossessionSignerImpl(
      * associated with the credential.
      *
      * @param dataToSign The data bytes to be signed.
-     * @param keyUnlockData Optional data required to unlock the key for signing operations.
+     * @param unlockReason Reason for unlocking the key, used for authentication prompts.
      * @return An [EcSignature] containing the signature data.
      */
     override suspend fun signPoP(
         dataToSign: ByteArray,
-        keyUnlockData: KeyUnlockData?
+        unlockReason: UnlockReason
     ): EcSignature {
         return secureArea.sign(
             alias = keyAlias,
             dataToSign = dataToSign,
-            keyUnlockData = keyUnlockData
+            unlockReason = unlockReason
         )
     }
 }
