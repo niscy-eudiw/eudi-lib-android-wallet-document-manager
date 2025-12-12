@@ -142,7 +142,7 @@ class UnsignedDocumentTest {
             val signer = popSigners.first()
 
             val dataToSign = "test data".toByteArray()
-            val signature = signer.signPoP(dataToSign, null)
+            val signature = signer.signPoP(dataToSign)
 
             assertNotNull(signature)
             // In a real test, we could verify the signature against the public key

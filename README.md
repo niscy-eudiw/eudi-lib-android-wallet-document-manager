@@ -75,7 +75,7 @@ dependencies {
 
     // Optional: Use the multipaz-android library if you want to use the implementations for Storage and SecureArea
     // for Android devices, provided by the OpenWallet Foundation
-    implementation("org.multipaz:multipaz-android:0.94.0")
+    implementation("org.multipaz:multipaz-android:0.95.0")
 }
 ```
 
@@ -106,7 +106,7 @@ val secureAreaRepository = SecureAreaRepository.build {
 ```
 
 To use the DocumentManager with the Multipaz library for android, you must add the
-`org.multipaz:multipaz-android:0.94.0` dependency to your project, and use the provided
+`org.multipaz:multipaz-android:0.95.0` dependency to your project, and use the provided
 implementations for Storage and SecureArea for Android devices.
 
 ```kotlin
@@ -167,8 +167,8 @@ classDiagram
         + getValidUntil() Result
         + isCertified() Boolean
         + consumingCredential(block) Result~T~
-        + signConsumingCredential(keyUnlockData KeyUnlockData?) Result~EcSignature~
-        + keyAgreementConsumingCredential(keyUnlockData KeyUnlockData?) Result~SharedSecret~
+        + signConsumingCredential(unlockReason UnlockReason) Result~EcSignature~
+        + keyAgreementConsumingCredential(unlockReason UnlockReason) Result~SharedSecret~
     }
 ```
 
@@ -330,17 +330,11 @@ val createDocumentResult = documentManager.createDocument(
 val unsignedDocument = createDocumentResult.getOrThrow()
 val popSigners = unsignedDocument.getPoPSigners()
 
-
-// prepare keyUnlockData to unlock the key
-val keyUnlockData = SoftwareKeyUnlockData(
-    passphrase = "passphrase required to unlock the key"
-)
-
 // proof of key possession
 val publicKeys = popSigners.map { it.getKeyInfo().publicKey.toCoseBytes }
 val dataToSignFromIssuer: ByteArray = TODO("Data to sign from issuer for proof of key possession")
 val proofs = popSigners
-    .map { it.signPoP(dataToSignFromIssuer, keyUnlockData = keyUnlockData) }
+    .map { it.signPoP(dataToSignFromIssuer, UnlockReason.Unspecified) }
     .map { it.toCoseEncoded() }
 // send the public keys and the signature proofs to the issuer
 

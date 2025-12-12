@@ -33,8 +33,8 @@ import org.multipaz.credential.SecureAreaBoundCredential
 import org.multipaz.crypto.EcPublicKey
 import org.multipaz.crypto.EcSignature
 import org.multipaz.document.Document
-import org.multipaz.securearea.KeyUnlockData
 import org.multipaz.securearea.SecureArea
+import org.multipaz.securearea.UnlockReason
 import java.time.Instant
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -614,7 +614,7 @@ class IssuedDocumentTest {
             secureArea.sign(
                 alias = eq(alias),
                 dataToSign = eq(dataToSign),
-                keyUnlockData = null
+                unlockReason = eq(UnlockReason.Unspecified)
             )
         }
 
@@ -623,16 +623,16 @@ class IssuedDocumentTest {
     }
 
     @Test
-    fun `test signConsumingCredential uses provided keyUnlockData`() = runTest {
-        // Setup - Create test data, credential, and unlock data
+    fun `test signConsumingCredential uses provided unlockReason`() = runTest {
+        // Setup - Create test data, credential, and unlock reason
         val dataToSign = "test-data".toByteArray()
         val expectedSignature = mockk<EcSignature>()
-        val mockUnlockData = mockk<KeyUnlockData>()
+        val mockUnlockReason = mockk<UnlockReason>()
         val alias = "sign-credential"
 
         val secureArea = mockk<SecureArea> {
             coEvery {
-                sign(eq(alias), eq(dataToSign), eq(mockUnlockData))
+                sign(eq(alias), eq(dataToSign), eq(mockUnlockReason))
             } returns expectedSignature
             coEvery { getKeyInvalidated(any()) } returns false
         }
@@ -651,19 +651,19 @@ class IssuedDocumentTest {
             )
         )
 
-        // Act - Sign the data with unlock data
-        val result = issuedDocument.signConsumingCredential(dataToSign, mockUnlockData)
+        // Act - Sign the data with unlock reason
+        val result = issuedDocument.signConsumingCredential(dataToSign, mockUnlockReason)
 
         // Assert - The signature is as expected
         assert(result.isSuccess)
         assert(result.getOrNull() == expectedSignature)
 
-        // Verify the unlock data was passed correctly
+        // Verify the unlock reason was passed correctly
         coVerify {
             secureArea.sign(
                 alias = eq(alias),
                 dataToSign = eq(dataToSign),
-                keyUnlockData = eq(mockUnlockData)
+                unlockReason = eq(mockUnlockReason)
             )
         }
     }
@@ -761,7 +761,7 @@ class IssuedDocumentTest {
             secureArea.keyAgreement(
                 alias = eq(alias),
                 otherKey = any(), // Can't directly compare the converted key
-                keyUnlockData = null
+                unlockReason = eq(UnlockReason.Unspecified)
             )
         }
 
@@ -772,8 +772,8 @@ class IssuedDocumentTest {
     }
 
     @Test
-    fun `test keyAgreementConsumingCredential uses provided keyUnlockData`() = runTest {
-        // Setup - Create public key, unlock data, and expected shared secret
+    fun `test keyAgreementConsumingCredential uses provided unlockReason`() = runTest {
+        // Setup - Create public key, unlock reason, and expected shared secret
 
         val otherPublicKey = "other-party-key".toByteArray()
         val otherPublicKeyDataItem = mockk<DataItem>()
@@ -782,12 +782,12 @@ class IssuedDocumentTest {
         mockkObject(EcPublicKey.Companion)
         every { EcPublicKey.Companion.fromDataItem(otherPublicKeyDataItem) } returns mockk()
         val expectedSharedSecret = byteArrayOf(1, 2, 3, 4) // SharedSecret is a ByteArray type alias
-        val mockUnlockData = mockk<KeyUnlockData>()
+        val mockUnlockReason = mockk<UnlockReason>()
         val alias = "key-agreement-credential"
 
         val secureArea = mockk<SecureArea> {
             coEvery {
-                keyAgreement(eq(alias), any(), eq(mockUnlockData))
+                keyAgreement(eq(alias), any(), eq(mockUnlockReason))
             } returns expectedSharedSecret
             coEvery { getKeyInvalidated(any()) } returns false
         }
@@ -806,8 +806,8 @@ class IssuedDocumentTest {
             )
         )
 
-        // Act - Perform key agreement with unlock data
-        val result = issuedDocument.keyAgreementConsumingCredential(otherPublicKey, mockUnlockData)
+        // Act - Perform key agreement with unlock reason
+        val result = issuedDocument.keyAgreementConsumingCredential(otherPublicKey, mockUnlockReason)
 
         // Assert - The shared secret is as expected
         assert(result.isSuccess) { "Expected result to be success but was: $result" }
@@ -815,12 +815,12 @@ class IssuedDocumentTest {
             result.getOrNull()?.contentEquals(expectedSharedSecret) == true
         ) { "Expected shared secret doesn't match" }
 
-        // Verify unlock data was passed correctly
+        // Verify unlock reason was passed correctly
         coVerify {
             secureArea.keyAgreement(
                 alias = eq(alias),
                 otherKey = any(), // Can't directly compare the converted key
-                keyUnlockData = eq(mockUnlockData)
+                unlockReason = eq(mockUnlockReason)
             )
         }
 
