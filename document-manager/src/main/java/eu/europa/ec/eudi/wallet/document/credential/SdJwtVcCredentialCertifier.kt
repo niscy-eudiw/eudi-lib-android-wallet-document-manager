@@ -25,6 +25,7 @@ import eu.europa.ec.eudi.sdjwt.vc.TypeMetadataPolicy
 import eu.europa.ec.eudi.sdjwt.vc.X509CertificateTrust
 import eu.europa.ec.eudi.wallet.document.internal.sdJwtVcString
 import io.ktor.client.HttpClient
+import kotlinx.io.bytestring.ByteString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -88,6 +89,7 @@ class SdJwtVcCredentialCertifier(
         val validFrom = nbf ?: iat ?: Clock.System.now()
         val validUntil = exp ?: validFrom.plus(30.days)
 
-        credential.certify(data, validFrom, validUntil)
+        // TODO: validFrom, validUntil
+        credential.certify(ByteString(data))
     }
 }

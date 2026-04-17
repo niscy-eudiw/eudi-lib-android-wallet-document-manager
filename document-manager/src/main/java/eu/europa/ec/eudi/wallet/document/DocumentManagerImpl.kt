@@ -23,6 +23,7 @@ import eu.europa.ec.eudi.wallet.document.format.DocumentFormat
 import eu.europa.ec.eudi.wallet.document.format.MsoMdocFormat
 import eu.europa.ec.eudi.wallet.document.format.SdJwtVcFormat
 import eu.europa.ec.eudi.wallet.document.internal.ApplicationMetadata
+import eu.europa.ec.eudi.wallet.document.internal.ApplicationMetadataImpl
 import eu.europa.ec.eudi.wallet.document.internal.applicationMetadata
 import eu.europa.ec.eudi.wallet.document.internal.documentManagerId
 import eu.europa.ec.eudi.wallet.document.internal.toDocument
@@ -134,7 +135,7 @@ class DocumentManagerImpl(
             try {
                 documentStore.listDocuments()
                     .mapNotNull {
-                        getDocumentById(it)?.takeIf { doc -> doc.documentManagerId == identifier }
+                        getDocumentById(it.identifier)?.takeIf { doc -> doc.documentManagerId == identifier }
                     }
                     .filter {
                         when (predicate) {
@@ -190,21 +191,20 @@ class DocumentManagerImpl(
                     secureAreaRepository.getImplementation(createSettings.secureAreaIdentifier)
                         ?: throw IllegalArgumentException("SecureArea '${createSettings.secureAreaIdentifier}' not registered")
                 val domain = identifier
-                val identityDocument = documentStore.createDocument { metadata ->
-                    (metadata as ApplicationMetadata).initialize(
+                val identityDocument = documentStore.createDocument(
+                    displayName = when (format) {
+                        is MsoMdocFormat -> format.docType
+                        is SdJwtVcFormat -> format.vct
+                    },
+                    created = Clock.System.now(),
+                    metadata = ApplicationMetadataImpl.create(
                         documentManagerId = identifier,
                         format = format,
-                        documentName = when (format) {
-                            is MsoMdocFormat -> format.docType
-                            is SdJwtVcFormat -> format.vct
-                        },
-                        createdAt = Clock.System.now(),
                         issuerMetadata = issuerMetadata,
                         initialCredentialsCount = createSettings.numberOfCredentials,
                         credentialPolicy = createSettings.credentialPolicy,
-                        keyAttestation = null,
                     )
-                }
+                )
 
                 val factory = CredentialFactory(domain = domain, format = format)
                 val (_, keyAttestation) = factory.createCredentials(
@@ -214,7 +214,11 @@ class DocumentManagerImpl(
                     secureArea = secureArea
                 )
                 keyAttestation?.let {
-                    identityDocument.applicationMetadata.setKeyAttestation(it)
+                    identityDocument.edit {
+                        metadata = identityDocument.applicationMetadata.apply {
+                            setKeyAttestation(it)
+                        }
+                    }
                 }
 
                 documentId = identityDocument.identifier
@@ -264,8 +268,11 @@ class DocumentManagerImpl(
                 }
                 identityDocument.applicationMetadata.issue(
                     issuerProvidedData = ByteString(issuerProvidedData.first().data),
-                    documentName = unsignedDocument.name,
                 )
+                identityDocument.edit {
+                    provisioned = true
+                    displayName = unsignedDocument.name
+                }
                 Outcome.success(identityDocument.toDocument())
             } catch (e: Throwable) {
                 Outcome.failure(e)
@@ -290,10 +297,12 @@ class DocumentManagerImpl(
                 val identityDocument = documentStore.lookupDocument(unsignedDocument.id)
                     ?: throw IllegalArgumentException("Document with ${unsignedDocument.id} not found")
 
-                identityDocument.applicationMetadata.issueDeferred(
-                    deferredRelatedData = ByteString(relatedData),
-                    documentName = unsignedDocument.name
-                )
+                identityDocument.edit {
+                    displayName = unsignedDocument.name
+                    metadata = identityDocument.applicationMetadata.apply {
+                        issueDeferred(ByteString(relatedData))
+                    }
+                }
                 Outcome.success(identityDocument.toDocument())
             } catch (e: Exception) {
                 Outcome.failure(e)
