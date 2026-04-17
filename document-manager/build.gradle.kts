@@ -19,12 +19,12 @@ import com.github.jk1.license.filter.LicenseBundleNormalizer
 import com.github.jk1.license.filter.ReduceDuplicateLicensesFilter
 import com.github.jk1.license.render.InventoryMarkdownReportRenderer
 import com.vanniktech.maven.publish.AndroidMultiVariantLibrary
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Locale
 
 plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dokka)
     alias(libs.plugins.dependency.license.report)
     alias(libs.plugins.dependencycheck)
@@ -72,9 +72,6 @@ android {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
         targetCompatibility = JavaVersion.toVersion(libs.versions.java.get())
     }
-    kotlinOptions {
-        jvmTarget = libs.versions.java.get()
-    }
 
     packaging {
         resources {
@@ -88,10 +85,12 @@ android {
             withSourcesJar()
         }
     }
+}
 
-    kotlinOptions {
-        jvmTarget = libs.versions.java.get()
-        freeCompilerArgs += listOf(
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.fromTarget(libs.versions.java.get()))
+        freeCompilerArgs.addAll(
             "-opt-in=kotlin.RequiresOptIn",
             "-opt-in=kotlin.time.ExperimentalTime",
             "-opt-in=kotlin.ExperimentalApi"
@@ -126,8 +125,7 @@ dependencies {
 
     implementation(libs.bouncy.castle.prov)
     implementation(libs.bouncy.castle.pkix)
-
-    testImplementation(kotlin("test"))
+    testImplementation(libs.kotlin.test.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.json)
     testImplementation(libs.kotlinx.coroutines.test)
