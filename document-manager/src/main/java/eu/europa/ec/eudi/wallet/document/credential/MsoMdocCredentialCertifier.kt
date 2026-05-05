@@ -42,7 +42,6 @@ class MsoMdocCredentialCertifier() : CredentialCertification {
             val msg = "Public key in MSO does not match the one in the request"
             throw IllegalArgumentException(msg)
         }
-        // TODO: mso.validFrom, mso.validUntil
         credential.certify(ByteString(data))
     }
 }
