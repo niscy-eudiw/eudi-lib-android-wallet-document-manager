@@ -2,5 +2,5 @@
 
 # SdJwtVcData
 
-[androidJvm]\
-constructor(format: [SdJwtVcFormat](../-sd-jwt-vc-format/index.md), issuerMetadata: [IssuerMetadata](../../eu.europa.ec.eudi.wallet.document.metadata/-issuer-metadata/index.md)?, sdJwtVc: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html))
+[release]\
+constructor(format: [SdJwtVcFormat](../-sd-jwt-vc-format/index.md), issuerMetadata: [IssuerMetadata](../../eu.europa.ec.eudi.wallet.document.metadata/-issuer-metadata/index.md)?, sdJwtVc: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html))

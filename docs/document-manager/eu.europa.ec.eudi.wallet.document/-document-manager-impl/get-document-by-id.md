@@ -2,7 +2,7 @@
 
 # getDocumentById
 
-[androidJvm]\
+[release]\
 open override fun [getDocumentById](get-document-by-id.md)(documentId: [DocumentId](../-document-id/index.md)): [Document](../-document/index.md)?
 
 Retrieve a document by its identifier.
@@ -13,7 +13,7 @@ the document or null if not found
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

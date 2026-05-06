@@ -2,5 +2,5 @@
 
 # SdJwtVc
 
-[androidJvm]\
-constructor(issuedSdJwt: SdJwt&lt;&lt;Error class: unknown class&gt;&gt;)
+[release]\
+constructor(issuedSdJwt: SdJwt&lt;JwtAndClaims&gt;)

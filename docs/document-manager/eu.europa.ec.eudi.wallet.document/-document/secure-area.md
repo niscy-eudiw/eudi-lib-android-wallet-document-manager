@@ -2,7 +2,7 @@
 
 # secureArea
 
-[androidJvm]\
+[release]\
 abstract val [~~secureArea~~](secure-area.md): SecureArea
 
 ---

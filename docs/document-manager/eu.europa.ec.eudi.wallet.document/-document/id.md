@@ -2,5 +2,5 @@
 
 # id
 
-[androidJvm]\
+[release]\
 abstract val [id](id.md): [DocumentId](../-document-id/index.md)

@@ -2,8 +2,8 @@
 
 # uri
 
-[androidJvm]\
+[release]\
 
 @Serializable(with = URISerializer::class)
 
-val [uri](uri.md): [URI](https://developer.android.com/reference/kotlin/java/net/URI.html)? = null
+val [uri](uri.md): [URI](https://developer.android.com/reference/kotlin/java/net/URI.html)?

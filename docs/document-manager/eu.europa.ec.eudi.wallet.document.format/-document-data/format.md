@@ -2,5 +2,5 @@
 
 # format
 
-[androidJvm]\
+[release]\
 abstract val [format](format.md): [DocumentFormat](../-document-format/index.md)

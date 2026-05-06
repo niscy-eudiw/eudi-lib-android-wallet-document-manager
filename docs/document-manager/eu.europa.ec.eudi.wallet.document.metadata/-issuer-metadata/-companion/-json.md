@@ -2,5 +2,5 @@
 
 # Json
 
-[androidJvm]\
+[release]\
 val [Json](-json.md): Json

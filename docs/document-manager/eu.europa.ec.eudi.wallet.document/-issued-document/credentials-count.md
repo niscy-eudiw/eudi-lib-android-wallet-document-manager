@@ -2,13 +2,9 @@
 
 # credentialsCount
 
-[androidJvm]\
-open suspend override fun [credentialsCount](credentials-count.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html)
+[release]\
+open suspend override fun [credentialsCount](credentials-count.md)(): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html)
 
-Returns the number of valid credentials associated with this document.
+Returns the number of credentials that pass structural validity checks.
 
-For UnsignedDocument, this counts credentials that can be used for proof of possession. For IssuedDocument, this counts valid credentials according to the credential policy.
-
-#### Return
-
-The number of valid credentials available for this document
+Delegates to [getCredentials](get-credentials.md), which does **not** filter by temporal validity. This count may include expired or not-yet-valid credentials. To check how many credentials are currently usable, filter [getCredentials](get-credentials.md) by `validFrom`/`validUntil` or use [findCredential](find-credential.md) to check if at least one is valid.

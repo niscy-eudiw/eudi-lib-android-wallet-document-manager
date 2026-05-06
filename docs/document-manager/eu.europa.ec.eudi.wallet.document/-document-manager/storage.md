@@ -2,5 +2,5 @@
 
 # storage
 
-[androidJvm]\
+[release]\
 abstract val [storage](storage.md): Storage

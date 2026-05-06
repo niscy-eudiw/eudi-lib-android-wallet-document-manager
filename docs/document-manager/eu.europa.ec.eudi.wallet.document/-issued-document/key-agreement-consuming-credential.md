@@ -2,8 +2,8 @@
 
 # keyAgreementConsumingCredential
 
-[androidJvm]\
-suspend fun [keyAgreementConsumingCredential](key-agreement-consuming-credential.md)(otherPublicKey: [ByteArray](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte-array/index.html), keyUnlockData: KeyUnlockData? = null): [Result](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-result/index.html)&lt;[SharedSecret](../-shared-secret/index.md)&gt;
+[release]\
+suspend fun [keyAgreementConsumingCredential](key-agreement-consuming-credential.md)(otherPublicKey: [ByteArray](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html), keyUnlockData: KeyUnlockData? = null): [Result](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-result/index.html)&lt;[SharedSecret](../-shared-secret/index.md)&gt;
 
 Performs key agreement with a document credential and applies the credential policy.
 
@@ -11,11 +11,11 @@ This method finds a valid credential, uses it to establish a shared secret with 
 
 #### Return
 
-A [Result](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-result/index.html) containing the [SharedSecret](../-shared-secret/index.md) or an exception if the operation failed
+A [Result](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-result/index.html) containing the [SharedSecret](../-shared-secret/index.md) or an exception if the operation failed
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

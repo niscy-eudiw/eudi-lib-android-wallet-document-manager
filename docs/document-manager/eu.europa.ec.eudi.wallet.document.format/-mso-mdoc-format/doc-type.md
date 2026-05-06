@@ -2,5 +2,5 @@
 
 # docType
 
-[androidJvm]\
+[release]\
 val [docType](doc-type.md): [DocType](../../eu.europa.ec.eudi.wallet.document/-doc-type/index.md)

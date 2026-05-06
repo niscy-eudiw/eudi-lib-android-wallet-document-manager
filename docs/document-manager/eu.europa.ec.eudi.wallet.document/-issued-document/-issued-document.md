@@ -2,5 +2,5 @@
 
 # IssuedDocument
 
-[androidJvm]\
+[release]\
 constructor(baseDocument: Document)

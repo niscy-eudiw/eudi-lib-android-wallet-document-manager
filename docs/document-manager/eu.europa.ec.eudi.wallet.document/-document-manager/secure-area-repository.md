@@ -2,5 +2,5 @@
 
 # secureAreaRepository
 
-[androidJvm]\
+[release]\
 abstract val [secureAreaRepository](secure-area-repository.md): SecureAreaRepository

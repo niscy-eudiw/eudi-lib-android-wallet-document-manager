@@ -2,5 +2,5 @@
 
 # invoke
 
-[androidJvm]\
+[release]\
 operator fun [invoke](invoke.md)(format: [DocumentFormat](../../../eu.europa.ec.eudi.wallet.document.format/-document-format/index.md)): [CredentialCertification](../index.md)

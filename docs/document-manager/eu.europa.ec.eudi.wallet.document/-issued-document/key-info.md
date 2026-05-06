@@ -2,7 +2,7 @@
 
 # keyInfo
 
-[androidJvm]\
+[release]\
 open override val [~~keyInfo~~](key-info.md): KeyInfo
 
 ---

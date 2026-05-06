@@ -2,7 +2,7 @@
 
 # getDocumentById
 
-[androidJvm]\
+[release]\
 abstract fun [getDocumentById](get-document-by-id.md)(documentId: [DocumentId](../-document-id/index.md)): [Document](../-document/index.md)?
 
 Retrieves a document by its unique identifier.
@@ -15,7 +15,7 @@ The document if found and managed by this DocumentManager, null otherwise
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

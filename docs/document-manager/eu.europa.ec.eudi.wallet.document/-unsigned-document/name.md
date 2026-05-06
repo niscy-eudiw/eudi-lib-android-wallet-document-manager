@@ -2,5 +2,5 @@
 
 # name
 
-[androidJvm]\
-open override var [name](name.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html)
+[release]\
+open override var [name](name.md): [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html)

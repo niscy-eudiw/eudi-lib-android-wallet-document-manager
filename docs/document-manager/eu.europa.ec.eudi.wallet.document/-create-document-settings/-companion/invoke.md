@@ -2,8 +2,8 @@
 
 # invoke
 
-[androidJvm]\
-operator fun [invoke](invoke.md)(secureAreaIdentifier: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html), createKeySettings: CreateKeySettings, numberOfCredentials: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html) = 1, credentialPolicy: [CreateDocumentSettings.CredentialPolicy](../-credential-policy/index.md) = CredentialPolicy.RotateUse): [CreateDocumentSettings](../index.md)
+[release]\
+operator fun [invoke](invoke.md)(secureAreaIdentifier: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), createKeySettings: CreateKeySettings, numberOfCredentials: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 1, credentialPolicy: [CreateDocumentSettings.CredentialPolicy](../-credential-policy/index.md) = CredentialPolicy.RotateUse): [CreateDocumentSettings](../index.md)
 
 Create a new instance of [CreateDocumentSettings](../index.md) for [DocumentManagerImpl.createDocument](../../-document-manager-impl/create-document.md) that uses the org.multipaz.securearea.SecureArea.
 
@@ -13,7 +13,7 @@ A new instance of [CreateDocumentSettings](../index.md)
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|
@@ -26,4 +26,4 @@ androidJvm
 
 | | |
 |---|---|
-| [IllegalArgumentException](https://developer.android.com/reference/kotlin/java/lang/IllegalArgumentException.html) | if numberOfCredentials is not greater than 0 |
+| [IllegalArgumentException](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-illegal-argument-exception/index.html) | if numberOfCredentials is not greater than 0 |

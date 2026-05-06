@@ -2,8 +2,8 @@
 
 # getDocuments
 
-[androidJvm]\
-abstract fun [getDocuments](get-documents.md)(predicate: ([Document](../-document/index.md)) -&gt; [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html)? = null): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[Document](../-document/index.md)&gt;
+[release]\
+abstract fun [getDocuments](get-documents.md)(predicate: ([Document](../-document/index.md)) -&gt; [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)? = null): [List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[Document](../-document/index.md)&gt;
 
 Retrieves all documents managed by this DocumentManager instance.
 
@@ -15,8 +15,8 @@ A list of documents matching the criteria, or an empty list if none found or if 
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|
-| predicate | Optional filter function that takes a Document and returns a boolean     indicating whether to include the document in the results |
+| predicate | Optional filter function that takes a Document and returns a boolean                  indicating whether to include the document in the results |

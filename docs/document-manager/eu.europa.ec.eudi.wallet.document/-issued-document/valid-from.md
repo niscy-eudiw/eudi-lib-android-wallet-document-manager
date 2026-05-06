@@ -2,7 +2,7 @@
 
 # validFrom
 
-[androidJvm]\
+[release]\
 val [~~validFrom~~](valid-from.md): [Instant](https://developer.android.com/reference/kotlin/java/time/Instant.html)
 
 ---

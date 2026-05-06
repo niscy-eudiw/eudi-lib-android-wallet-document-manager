@@ -2,5 +2,5 @@
 
 # numberOfCredentials
 
-[androidJvm]\
-open override val [numberOfCredentials](number-of-credentials.md): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html) = 1
+[release]\
+open override val [numberOfCredentials](number-of-credentials.md): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html)

@@ -2,5 +2,5 @@
 
 # SdJwtVcCredentialCertifier
 
-[androidJvm]\
-constructor(httpClient: HttpClient = HttpClient())
+[release]\
+constructor()

@@ -2,5 +2,5 @@
 
 # invoke
 
-[androidJvm]\
+[release]\
 operator fun [invoke](invoke.md)(credential: SecureAreaBoundCredential): [ProofOfPossessionSigner](../index.md)

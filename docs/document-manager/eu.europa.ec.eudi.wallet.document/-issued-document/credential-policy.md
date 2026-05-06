@@ -2,7 +2,7 @@
 
 # credentialPolicy
 
-[androidJvm]\
+[release]\
 val [credentialPolicy](credential-policy.md): [CreateDocumentSettings.CredentialPolicy](../-create-document-settings/-credential-policy/index.md)
 
 The credential policy associated with this document.

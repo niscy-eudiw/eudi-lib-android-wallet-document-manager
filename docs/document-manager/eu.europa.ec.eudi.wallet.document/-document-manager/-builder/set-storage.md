@@ -2,7 +2,7 @@
 
 # setStorage
 
-[androidJvm]\
+[release]\
 fun [setStorage](set-storage.md)(storage: Storage): [DocumentManager.Builder](index.md)
 
 Set the storage to use for storing/retrieving documents.
@@ -13,7 +13,7 @@ this builder
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

@@ -2,5 +2,5 @@
 
 # secureAreaRepository
 
-[androidJvm]\
+[release]\
 var [secureAreaRepository](secure-area-repository.md): SecureAreaRepository?
