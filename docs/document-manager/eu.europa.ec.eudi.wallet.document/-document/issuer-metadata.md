@@ -2,5 +2,5 @@
 
 # issuerMetadata
 
-[androidJvm]\
+[release]\
 abstract val [issuerMetadata](issuer-metadata.md): [IssuerMetadata](../../eu.europa.ec.eudi.wallet.document.metadata/-issuer-metadata/index.md)?

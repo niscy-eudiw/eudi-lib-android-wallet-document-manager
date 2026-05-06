@@ -2,8 +2,8 @@
 
 # signPoP
 
-[androidJvm]\
-open suspend override fun [signPoP](sign-po-p.md)(dataToSign: [ByteArray](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte-array/index.html), keyUnlockData: KeyUnlockData?): EcSignature
+[release]\
+open suspend override fun [signPoP](sign-po-p.md)(dataToSign: [ByteArray](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html), keyUnlockData: KeyUnlockData?): EcSignature
 
 Creates a Proof of Possession signature by delegating to the secure area associated with the credential.
 
@@ -13,7 +13,7 @@ An EcSignature containing the signature data.
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

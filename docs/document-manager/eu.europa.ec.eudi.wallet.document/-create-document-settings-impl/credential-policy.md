@@ -2,5 +2,5 @@
 
 # credentialPolicy
 
-[androidJvm]\
+[release]\
 open override val [credentialPolicy](credential-policy.md): [CreateDocumentSettings.CredentialPolicy](../-create-document-settings/-credential-policy/index.md)

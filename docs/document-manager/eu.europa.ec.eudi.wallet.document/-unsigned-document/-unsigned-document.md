@@ -2,5 +2,5 @@
 
 # UnsignedDocument
 
-[androidJvm]\
+[release]\
 constructor(baseDocument: Document)

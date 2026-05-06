@@ -2,5 +2,5 @@
 
 # nameSpacedDataInBytes
 
-[androidJvm]\
-val [nameSpacedDataInBytes](name-spaced-data-in-bytes.md): [NameSpacedValues](../../eu.europa.ec.eudi.wallet.document/-name-spaced-values/index.md)&lt;[ByteArray](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte-array/index.html)&gt;
+[release]\
+val [nameSpacedDataInBytes](name-spaced-data-in-bytes.md): [NameSpacedValues](../../eu.europa.ec.eudi.wallet.document/-name-spaced-values/index.md)&lt;[ByteArray](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html)&gt;

@@ -2,8 +2,8 @@
 
 # sign
 
-[androidJvm]\
-fun [~~sign~~](sign.md)(dataToSign: [ByteArray](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte-array/index.html), keyUnlockData: KeyUnlockData? = null): [Outcome](../-outcome/index.md)&lt;EcSignature&gt;
+[release]\
+fun [~~sign~~](sign.md)(dataToSign: [ByteArray](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html), keyUnlockData: KeyUnlockData? = null): [Outcome](../-outcome/index.md)&lt;EcSignature&gt;
 
 ---
 
@@ -23,7 +23,7 @@ An [Outcome](../-outcome/index.md) containing either the EcSignature or a failur
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

@@ -2,8 +2,8 @@
 
 # SdJwtVc
 
-[androidJvm]\
-data class [SdJwtVc](index.md)(val issuedSdJwt: SdJwt&lt;&lt;Error class: unknown class&gt;&gt;) : [CredentialIssuedData](../index.md)
+[release]\
+data class [SdJwtVc](index.md)(val issuedSdJwt: SdJwt&lt;JwtAndClaims&gt;) : [CredentialIssuedData](../index.md)
 
 Represents a Selective Disclosure JWT Verifiable Credential format.
 
@@ -11,10 +11,10 @@ Represents a Selective Disclosure JWT Verifiable Credential format.
 
 | | |
 |---|---|
-| [SdJwtVc](-sd-jwt-vc.md) | [androidJvm]<br>constructor(issuedSdJwt: SdJwt&lt;&lt;Error class: unknown class&gt;&gt;) |
+| [SdJwtVc](-sd-jwt-vc.md) | [release]<br>constructor(issuedSdJwt: SdJwt&lt;JwtAndClaims&gt;) |
 
 ## Properties
 
 | Name | Summary |
 |---|---|
-| [issuedSdJwt](issued-sd-jwt.md) | [androidJvm]<br>val [issuedSdJwt](issued-sd-jwt.md): SdJwt&lt;&lt;Error class: unknown class&gt;&gt;<br>The SD-JWT with claims as issued by the credential provider |
+| [issuedSdJwt](issued-sd-jwt.md) | [release]<br>val [issuedSdJwt](issued-sd-jwt.md): SdJwt&lt;JwtAndClaims&gt;<br>The SD-JWT with claims as issued by the credential provider |

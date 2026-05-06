@@ -2,7 +2,7 @@
 
 # credentialPolicy
 
-[androidJvm]\
+[release]\
 abstract val [credentialPolicy](credential-policy.md): [CreateDocumentSettings.CredentialPolicy](-credential-policy/index.md)
 
 Defines the policy for credential usage and lifecycle management. Controls whether credentials are used once and deleted or rotated through multiple uses.
@@ -11,4 +11,4 @@ Defines the policy for credential usage and lifecycle management. Controls wheth
 
 | |
 |---|
-| [CreateDocumentSettings.CredentialPolicy](-credential-policy/index.md) |
+| [CredentialPolicy](-credential-policy/index.md) |

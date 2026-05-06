@@ -2,5 +2,5 @@
 
 # issuedSdJwt
 
-[androidJvm]\
-val [issuedSdJwt](issued-sd-jwt.md): SdJwt&lt;&lt;Error class: unknown class&gt;&gt;
+[release]\
+val [issuedSdJwt](issued-sd-jwt.md): SdJwt&lt;JwtAndClaims&gt;

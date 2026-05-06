@@ -2,5 +2,5 @@
 
 # Display
 
-[androidJvm]\
-constructor(name: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html)? = null, locale: [Locale](https://developer.android.com/reference/kotlin/java/util/Locale.html)? = null)
+[release]\
+constructor(name: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html)? = null, locale: [Locale](https://developer.android.com/reference/kotlin/java/util/Locale.html)? = null)

@@ -2,7 +2,7 @@
 
 # getOrThrow
 
-[androidJvm]\
+[release]\
 fun [getOrThrow](get-or-throw.md)(): [T](index.md)
 
 Returns the encapsulated value if this instance represents a successful outcome or throws the encapsulated exception if it is failure.
@@ -15,4 +15,4 @@ the encapsulated value if this instance represents a successful outcome
 
 | | |
 |---|---|
-| [Throwable](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-throwable/index.html) | the encapsulated exception if this instance represents a failure outcome |
+| [Throwable](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-throwable/index.html) | the encapsulated exception if this instance represents a failure outcome |

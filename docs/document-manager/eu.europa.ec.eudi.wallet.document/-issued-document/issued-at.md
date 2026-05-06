@@ -2,5 +2,5 @@
 
 # issuedAt
 
-[androidJvm]\
+[release]\
 val [issuedAt](issued-at.md): [Instant](https://developer.android.com/reference/kotlin/java/time/Instant.html)

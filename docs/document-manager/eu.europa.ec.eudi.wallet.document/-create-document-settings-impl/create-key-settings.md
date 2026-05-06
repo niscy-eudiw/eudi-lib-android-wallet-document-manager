@@ -2,5 +2,5 @@
 
 # createKeySettings
 
-[androidJvm]\
+[release]\
 open override val [createKeySettings](create-key-settings.md): CreateKeySettings

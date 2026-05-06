@@ -2,8 +2,8 @@
 
 # exceptionOrNull
 
-[androidJvm]\
-fun [exceptionOrNull](exception-or-null.md)(): [Throwable](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-throwable/index.html)?
+[release]\
+fun [exceptionOrNull](exception-or-null.md)(): [Throwable](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-throwable/index.html)?
 
 Returns the encapsulated exception if this instance represents a failure outcome or `null` if it is success.
 

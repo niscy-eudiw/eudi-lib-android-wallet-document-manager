@@ -2,11 +2,11 @@
 
 # Companion
 
-[androidJvm]\
+[release]\
 object [Companion](index.md)
 
 ## Functions
 
 | Name | Summary |
 |---|---|
-| [invoke](invoke.md) | [androidJvm]<br>operator fun [invoke](invoke.md)(credential: SecureAreaBoundCredential): [ProofOfPossessionSigner](../index.md) |
+| [invoke](invoke.md) | [release]<br>operator fun [invoke](invoke.md)(credential: SecureAreaBoundCredential): [ProofOfPossessionSigner](../index.md) |

@@ -2,5 +2,5 @@
 
 # issuerMetadata
 
-[androidJvm]\
+[release]\
 open override val [issuerMetadata](issuer-metadata.md): [IssuerMetadata.Claim](../../eu.europa.ec.eudi.wallet.document.metadata/-issuer-metadata/-claim/index.md)?

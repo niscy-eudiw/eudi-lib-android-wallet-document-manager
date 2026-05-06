@@ -2,10 +2,10 @@
 
 # backgroundImageUri
 
-[androidJvm]\
+[release]\
 
 @Serializable(with = URISerializer::class)
 
 @SerialName(value = &quot;backgroundImageUri&quot;)
 
-val [backgroundImageUri](background-image-uri.md): [URI](https://developer.android.com/reference/kotlin/java/net/URI.html)? = null
+val [backgroundImageUri](background-image-uri.md): [URI](https://developer.android.com/reference/kotlin/java/net/URI.html)?

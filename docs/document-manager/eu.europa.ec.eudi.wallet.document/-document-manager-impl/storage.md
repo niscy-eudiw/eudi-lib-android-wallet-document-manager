@@ -2,5 +2,5 @@
 
 # storage
 
-[androidJvm]\
+[release]\
 open override val [storage](storage.md): Storage

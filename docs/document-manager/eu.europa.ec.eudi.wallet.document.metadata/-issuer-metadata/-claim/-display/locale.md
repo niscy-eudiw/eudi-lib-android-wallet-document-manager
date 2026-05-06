@@ -2,10 +2,10 @@
 
 # locale
 
-[androidJvm]\
+[release]\
 
 @Serializable(with = LocaleSerializer::class)
 
 @SerialName(value = &quot;locale&quot;)
 
-val [locale](locale.md): [Locale](https://developer.android.com/reference/kotlin/java/util/Locale.html)? = null
+val [locale](locale.md): [Locale](https://developer.android.com/reference/kotlin/java/util/Locale.html)?

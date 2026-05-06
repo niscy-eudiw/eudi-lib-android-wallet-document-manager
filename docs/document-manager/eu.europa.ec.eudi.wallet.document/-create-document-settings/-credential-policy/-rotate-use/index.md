@@ -14,4 +14,4 @@ Appropriate for scenarios requiring frequent authentication where the performanc
 
 | | |
 |---|---|
-| [CreateDocumentSettings.CredentialPolicy.OneTimeUse](../-one-time-use/index.md) | for a stricter security policy |
+| [OneTimeUse](../-one-time-use/index.md) | for a stricter security policy |

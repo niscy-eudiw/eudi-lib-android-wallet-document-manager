@@ -2,8 +2,8 @@
 
 # fromJson
 
-[androidJvm]\
-fun [fromJson](from-json.md)(json: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html)): [Result](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-result/index.html)&lt;[IssuerMetadata](../index.md)&gt;
+[release]\
+fun [fromJson](from-json.md)(json: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html)): [Result](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-result/index.html)&lt;[IssuerMetadata](../index.md)&gt;
 
 Create a [IssuerMetadata](../index.md) object from a JSON string.
 
@@ -13,7 +13,7 @@ the [IssuerMetadata](../index.md) object
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|
@@ -23,5 +23,5 @@ androidJvm
 
 | | |
 |---|---|
-| [IllegalArgumentException](https://developer.android.com/reference/kotlin/java/lang/IllegalArgumentException.html) | if the decoded input cannot be represented as a valid instance of [IssuerMetadata](../index.md) |
+| [IllegalArgumentException](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-illegal-argument-exception/index.html) | if the decoded input cannot be represented as a valid instance of [IssuerMetadata](../index.md) |
 | SerializationException | if the given JSON string is not a valid JSON input |

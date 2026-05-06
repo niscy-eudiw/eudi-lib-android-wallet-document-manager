@@ -2,5 +2,5 @@
 
 # id
 
-[androidJvm]\
+[release]\
 open override val [id](id.md): [DocumentId](../-document-id/index.md)

@@ -2,5 +2,5 @@
 
 # secureAreaRepository
 
-[androidJvm]\
+[release]\
 open override val [secureAreaRepository](secure-area-repository.md): SecureAreaRepository

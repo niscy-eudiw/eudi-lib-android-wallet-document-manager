@@ -2,11 +2,11 @@
 
 # invoke
 
-[androidJvm]\
+[release]\
 
-@[JvmStatic](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html)
+@[JvmStatic](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html)
 
-operator fun [invoke](invoke.md)(configure: [DocumentManager.Builder](../-builder/index.md).() -&gt; [Unit](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-unit/index.html)): [DocumentManager](../index.md)
+operator fun [invoke](invoke.md)(configure: [DocumentManager.Builder](../-builder/index.md).() -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html)): [DocumentManager](../index.md)
 
 Create a [DocumentManager](../index.md) instance.
 
@@ -16,7 +16,7 @@ the document manager
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|
@@ -26,4 +26,4 @@ androidJvm
 
 | | |
 |---|---|
-| [IllegalArgumentException](https://developer.android.com/reference/kotlin/java/lang/IllegalArgumentException.html) | if the storage engine or secure area is not set |
+| [IllegalArgumentException](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-illegal-argument-exception/index.html) | if the storage engine or secure area is not set |

@@ -2,7 +2,7 @@
 
 # build
 
-[androidJvm]\
+[release]\
 fun [build](build.md)(): [DocumentManager](../index.md)
 
 Build a [DocumentManager](../index.md) instance.
@@ -15,4 +15,4 @@ the document manager
 
 | | |
 |---|---|
-| [IllegalArgumentException](https://developer.android.com/reference/kotlin/java/lang/IllegalArgumentException.html) | if the storage engine or secure area is not set |
+| [IllegalArgumentException](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-illegal-argument-exception/index.html) | if the storage engine or secure area is not set |

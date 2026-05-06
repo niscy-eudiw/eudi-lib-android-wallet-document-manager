@@ -2,5 +2,5 @@
 
 # MsoMdoc
 
-[androidJvm]\
+[release]\
 constructor(nameSpacedData: NameSpacedData, staticAuthData: StaticAuthDataParser.StaticAuthData)

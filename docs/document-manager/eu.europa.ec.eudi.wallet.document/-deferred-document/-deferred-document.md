@@ -2,5 +2,5 @@
 
 # DeferredDocument
 
-[androidJvm]\
-constructor(baseDocument: Document, relatedData: [ByteArray](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte-array/index.html))
+[release]\
+constructor(baseDocument: Document, relatedData: [ByteArray](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html))

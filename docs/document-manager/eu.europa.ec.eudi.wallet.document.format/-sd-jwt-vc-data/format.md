@@ -2,5 +2,5 @@
 
 # format
 
-[androidJvm]\
+[release]\
 open override val [format](format.md): [SdJwtVcFormat](../-sd-jwt-vc-format/index.md)

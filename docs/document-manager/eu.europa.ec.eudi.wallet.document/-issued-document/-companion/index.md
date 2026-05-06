@@ -2,11 +2,11 @@
 
 # Companion
 
-[androidJvm]\
+[release]\
 object [Companion](index.md)
 
 ## Properties
 
 | Name | Summary |
 |---|---|
-| [NO_CREDENTIALS](-n-o_-c-r-e-d-e-n-t-i-a-l-s.md) | [androidJvm]<br>const val [NO_CREDENTIALS](-n-o_-c-r-e-d-e-n-t-i-a-l-s.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html) |
+| [NO_CREDENTIALS](-n-o_-c-r-e-d-e-n-t-i-a-l-s.md) | [release]<br>const val [NO_CREDENTIALS](-n-o_-c-r-e-d-e-n-t-i-a-l-s.md): [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html) |

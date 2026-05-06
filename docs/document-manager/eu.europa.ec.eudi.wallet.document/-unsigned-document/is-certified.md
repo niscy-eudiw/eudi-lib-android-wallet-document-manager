@@ -2,8 +2,8 @@
 
 # isCertified
 
-[androidJvm]\
-open override val [~~isCertified~~](is-certified.md): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html) = false
+[release]\
+open override val [~~isCertified~~](is-certified.md): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = false
 
 ---
 

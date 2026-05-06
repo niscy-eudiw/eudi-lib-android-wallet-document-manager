@@ -2,5 +2,5 @@
 
 # vct
 
-[androidJvm]\
+[release]\
 val [vct](vct.md): [Vct](../../eu.europa.ec.eudi.wallet.document/-vct/index.md)
