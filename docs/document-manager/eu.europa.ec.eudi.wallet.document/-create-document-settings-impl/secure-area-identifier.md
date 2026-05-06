@@ -2,5 +2,5 @@
 
 # secureAreaIdentifier
 
-[androidJvm]\
-open override val [secureAreaIdentifier](secure-area-identifier.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html)
+[release]\
+open override val [secureAreaIdentifier](secure-area-identifier.md): [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html)

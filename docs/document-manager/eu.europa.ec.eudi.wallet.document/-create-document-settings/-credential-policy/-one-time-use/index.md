@@ -12,4 +12,4 @@ This policy ensures credentials cannot be reused, providing enhanced security by
 
 | | |
 |---|---|
-| [CreateDocumentSettings.CredentialPolicy.RotateUse](../-rotate-use/index.md) | for an alternative policy that allows credential reuse |
+| [RotateUse](../-rotate-use/index.md) | for an alternative policy that allows credential reuse |

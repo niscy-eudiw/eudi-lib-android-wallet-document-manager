@@ -2,7 +2,7 @@
 
 # getPoPSigners
 
-[androidJvm]\
+[release]\
 suspend fun [getPoPSigners](get-po-p-signers.md)(): [ProofOfPossessionSigners](../../eu.europa.ec.eudi.wallet.document.credential/-proof-of-possession-signers/index.md)
 
 Creates proof of possession signers for the document credentials.
@@ -11,4 +11,4 @@ This method filters all available credentials associated with this document, sel
 
 #### Return
 
-A collection of [ProofOfPossessionSigner](../../eu.europa.ec.eudi.wallet.document.credential/-proof-of-possession-signer/index.md) instances that can be used to sign data     during document issuance
+A collection of [ProofOfPossessionSigner](../../eu.europa.ec.eudi.wallet.document.credential/-proof-of-possession-signer/index.md) instances that can be used to sign data          during document issuance

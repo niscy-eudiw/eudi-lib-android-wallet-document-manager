@@ -2,5 +2,5 @@
 
 # nameSpacedData
 
-[androidJvm]\
+[release]\
 val [nameSpacedData](name-spaced-data.md): NameSpacedData

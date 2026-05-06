@@ -2,5 +2,5 @@
 
 # value
 
-[androidJvm]\
-open override val [value](value.md): [Any](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-any/index.html)?
+[release]\
+open override val [value](value.md): [Any](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html)?

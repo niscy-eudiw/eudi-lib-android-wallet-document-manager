@@ -2,5 +2,5 @@
 
 # data
 
-[androidJvm]\
+[release]\
 val [data](data.md): [DocumentData](../../eu.europa.ec.eudi.wallet.document.format/-document-data/index.md)

@@ -2,8 +2,8 @@
 
 # signConsumingCredential
 
-[androidJvm]\
-suspend fun [signConsumingCredential](sign-consuming-credential.md)(dataToSign: [ByteArray](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte-array/index.html), keyUnlockData: KeyUnlockData? = null): [Result](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-result/index.html)&lt;EcSignature&gt;
+[release]\
+suspend fun [signConsumingCredential](sign-consuming-credential.md)(dataToSign: [ByteArray](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html), keyUnlockData: KeyUnlockData? = null): [Result](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-result/index.html)&lt;EcSignature&gt;
 
 Signs data with a document credential and applies the credential policy.
 
@@ -11,11 +11,11 @@ This method finds a valid credential, uses it to sign the provided data, and the
 
 #### Return
 
-A [Result](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-result/index.html) containing the EcSignature or an exception if the operation failed
+A [Result](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-result/index.html) containing the EcSignature or an exception if the operation failed
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

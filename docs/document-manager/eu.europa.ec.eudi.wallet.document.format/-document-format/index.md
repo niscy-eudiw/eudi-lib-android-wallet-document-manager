@@ -17,4 +17,4 @@ Represents a Document Format
 
 | Name | Summary |
 |---|---|
-| [Companion](-companion/index.md) | [androidJvm]<br>object [Companion](-companion/index.md) |
+| [Companion](-companion/index.md) | [release]<br>object [Companion](-companion/index.md) |

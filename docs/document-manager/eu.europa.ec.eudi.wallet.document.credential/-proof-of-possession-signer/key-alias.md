@@ -2,7 +2,7 @@
 
 # keyAlias
 
-[androidJvm]\
-abstract val [keyAlias](key-alias.md): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html)
+[release]\
+abstract val [keyAlias](key-alias.md): [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html)
 
 The alias of the key used for signing.

@@ -2,7 +2,7 @@
 
 # getKeyInfo
 
-[androidJvm]\
+[release]\
 open suspend override fun [getKeyInfo](get-key-info.md)(): KeyInfo
 
 The alias of the key used for signing.

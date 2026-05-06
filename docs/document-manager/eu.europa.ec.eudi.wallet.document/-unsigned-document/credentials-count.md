@@ -2,8 +2,8 @@
 
 # credentialsCount
 
-[androidJvm]\
-open suspend override fun [credentialsCount](credentials-count.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html)
+[release]\
+open suspend override fun [credentialsCount](credentials-count.md)(): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html)
 
 Returns the number of valid credentials associated with this document.
 
@@ -17,4 +17,4 @@ The number of valid credentials available for this document
 
 | |
 |---|
-| [UnsignedDocument.getPoPSigners](get-po-p-signers.md) |
+| [getPoPSigners](get-po-p-signers.md) |

@@ -2,7 +2,7 @@
 
 # secureArea
 
-[androidJvm]\
+[release]\
 open override val [~~secureArea~~](secure-area.md): SecureArea
 
 ---

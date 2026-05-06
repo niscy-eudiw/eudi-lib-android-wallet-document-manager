@@ -2,8 +2,8 @@
 
 # keyAgreement
 
-[androidJvm]\
-fun [~~keyAgreement~~](key-agreement.md)(otherPublicKey: [ByteArray](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte-array/index.html), keyUnlockData: KeyUnlockData? = null): [Outcome](../-outcome/index.md)&lt;[SharedSecret](../-shared-secret/index.md)&gt;
+[release]\
+fun [~~keyAgreement~~](key-agreement.md)(otherPublicKey: [ByteArray](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html), keyUnlockData: KeyUnlockData? = null): [Outcome](../-outcome/index.md)&lt;[SharedSecret](../-shared-secret/index.md)&gt;
 
 ---
 
@@ -23,7 +23,7 @@ An [Outcome](../-outcome/index.md) containing either the [SharedSecret](../-shar
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

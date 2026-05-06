@@ -2,12 +2,12 @@
 
 # storeDeferredDocument
 
-[androidJvm]\
-abstract fun [storeDeferredDocument](store-deferred-document.md)(unsignedDocument: [UnsignedDocument](../-unsigned-document/index.md), relatedData: [ByteArray](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte-array/index.html)): [Outcome](../-outcome/index.md)&lt;[DeferredDocument](../-deferred-document/index.md)&gt;
+[release]\
+abstract fun [storeDeferredDocument](store-deferred-document.md)(unsignedDocument: [UnsignedDocument](../-unsigned-document/index.md), relatedData: [ByteArray](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html)): [Outcome](../-outcome/index.md)&lt;[DeferredDocument](../-deferred-document/index.md)&gt;
 
 Stores an unsigned document for deferred issuance processing.
 
-This method is used when the document issuance process cannot be completed immediately and requires additional steps or time to complete. It stores the unsigned document along with additional data needed to resume and complete the issuance process later.
+This method is used when the document issuance process cannot be completed immediately and requires additional steps or time to complete. It stores the unsigned document  along with additional data needed to resume and complete the issuance process later.
 
 Deferred issuance is useful in scenarios where:
 
@@ -20,11 +20,11 @@ Deferred issuance is useful in scenarios where:
 
 #### Return
 
-An [Outcome](../-outcome/index.md) containing either:     - A success result with the stored [DeferredDocument](../-deferred-document/index.md)     - A failure result with an exception describing what went wrong
+An [Outcome](../-outcome/index.md) containing either:          - A success result with the stored [DeferredDocument](../-deferred-document/index.md)          - A failure result with an exception describing what went wrong
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

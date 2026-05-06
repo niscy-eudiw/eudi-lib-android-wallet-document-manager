@@ -2,5 +2,5 @@
 
 # staticAuthData
 
-[androidJvm]\
+[release]\
 val [staticAuthData](static-auth-data.md): StaticAuthDataParser.StaticAuthData

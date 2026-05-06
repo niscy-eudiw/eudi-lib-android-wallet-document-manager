@@ -2,5 +2,5 @@
 
 # ProofOfPossessionSignerImpl
 
-[androidJvm]\
+[release]\
 constructor(credential: SecureAreaBoundCredential)

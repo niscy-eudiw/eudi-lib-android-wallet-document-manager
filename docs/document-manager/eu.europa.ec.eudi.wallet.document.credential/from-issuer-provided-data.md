@@ -2,8 +2,8 @@
 
 # fromIssuerProvidedData
 
-[androidJvm]\
-fun NameSpacedData.Companion.[fromIssuerProvidedData](from-issuer-provided-data.md)(issuerProvidedData: [ByteArray](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte-array/index.html)): NameSpacedData
+[release]\
+fun NameSpacedData.Companion.[fromIssuerProvidedData](from-issuer-provided-data.md)(issuerProvidedData: [ByteArray](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html)): NameSpacedData
 
 Creates a NameSpacedData object from raw issuer provided data in CBOR format.
 
@@ -15,7 +15,7 @@ A structured NameSpacedData object containing the parsed credential data
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

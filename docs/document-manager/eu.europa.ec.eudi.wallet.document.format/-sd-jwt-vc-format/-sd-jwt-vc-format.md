@@ -2,5 +2,5 @@
 
 # SdJwtVcFormat
 
-[androidJvm]\
+[release]\
 constructor(vct: [Vct](../../eu.europa.ec.eudi.wallet.document/-vct/index.md))

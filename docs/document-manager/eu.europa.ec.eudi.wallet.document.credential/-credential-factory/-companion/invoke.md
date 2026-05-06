@@ -2,8 +2,8 @@
 
 # invoke
 
-[androidJvm]\
-operator fun [invoke](invoke.md)(domain: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html), format: [DocumentFormat](../../../eu.europa.ec.eudi.wallet.document.format/-document-format/index.md)): [CredentialFactory](../index.md)
+[release]\
+operator fun [invoke](invoke.md)(domain: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), format: [DocumentFormat](../../../eu.europa.ec.eudi.wallet.document.format/-document-format/index.md)): [CredentialFactory](../index.md)
 
 Creates an appropriate credential factory implementation based on the document format.
 
@@ -13,7 +13,7 @@ a credential factory implementation specific to the document format
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

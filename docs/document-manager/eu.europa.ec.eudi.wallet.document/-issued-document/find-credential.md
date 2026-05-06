@@ -2,7 +2,7 @@
 
 # findCredential
 
-[androidJvm]\
+[release]\
 suspend fun [findCredential](find-credential.md)(now: [Instant](https://developer.android.com/reference/kotlin/java/time/Instant.html)? = null): SecureAreaBoundCredential?
 
 Finds the most appropriate credential for the current time or a specified time.
@@ -22,7 +22,7 @@ The most appropriate credential, or null if no valid credential is found
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

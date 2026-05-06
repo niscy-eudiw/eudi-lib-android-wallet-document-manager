@@ -2,14 +2,14 @@
 
 # DocumentManagerImpl
 
-[androidJvm]\
-constructor(identifier: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html), storage: Storage, secureAreaRepository: SecureAreaRepository, ktorHttpClientFactory: () -&gt; HttpClient? = null)
+[release]\
+constructor(identifier: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), storage: Storage, secureAreaRepository: SecureAreaRepository, ktorHttpClientFactory: () -&gt; HttpClient? = null)
 
 Creates a new DocumentManagerImpl with the required dependencies
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

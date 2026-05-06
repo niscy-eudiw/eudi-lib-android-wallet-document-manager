@@ -2,7 +2,7 @@
 
 # keyInfo
 
-[androidJvm]\
+[release]\
 abstract val [~~keyInfo~~](key-info.md): KeyInfo
 
 ---

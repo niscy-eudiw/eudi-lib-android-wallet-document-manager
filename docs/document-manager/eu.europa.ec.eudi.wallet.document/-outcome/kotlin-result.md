@@ -2,5 +2,5 @@
 
 # kotlinResult
 
-[androidJvm]\
-val [kotlinResult](kotlin-result.md): [Result](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-result/index.html)&lt;[T](index.md)&gt;
+[release]\
+val [kotlinResult](kotlin-result.md): [Result](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-result/index.html)&lt;[T](index.md)&gt;

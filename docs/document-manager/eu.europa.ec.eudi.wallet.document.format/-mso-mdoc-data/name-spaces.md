@@ -2,5 +2,5 @@
 
 # nameSpaces
 
-[androidJvm]\
+[release]\
 val [nameSpaces](name-spaces.md): [NameSpaces](../../eu.europa.ec.eudi.wallet.document/-name-spaces/index.md)

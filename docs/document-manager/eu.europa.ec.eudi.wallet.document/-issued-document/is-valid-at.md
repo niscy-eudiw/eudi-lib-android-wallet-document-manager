@@ -2,8 +2,8 @@
 
 # isValidAt
 
-[androidJvm]\
-fun [~~isValidAt~~](is-valid-at.md)(time: [Instant](https://developer.android.com/reference/kotlin/java/time/Instant.html)): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html)
+[release]\
+fun [~~isValidAt~~](is-valid-at.md)(time: [Instant](https://developer.android.com/reference/kotlin/java/time/Instant.html)): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)
 
 ---
 
@@ -23,7 +23,7 @@ true if the document is valid at the specified time, false otherwise
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

@@ -2,5 +2,5 @@
 
 # format
 
-[androidJvm]\
+[release]\
 open override val [format](format.md): [MsoMdocFormat](../-mso-mdoc-format/index.md)

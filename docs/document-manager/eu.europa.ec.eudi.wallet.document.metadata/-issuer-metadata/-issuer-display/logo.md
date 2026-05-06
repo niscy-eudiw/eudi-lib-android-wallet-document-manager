@@ -2,5 +2,5 @@
 
 # logo
 
-[androidJvm]\
-val [logo](logo.md): [IssuerMetadata.Logo](../-logo/index.md)? = null
+[release]\
+val [logo](logo.md): [IssuerMetadata.Logo](../-logo/index.md)?

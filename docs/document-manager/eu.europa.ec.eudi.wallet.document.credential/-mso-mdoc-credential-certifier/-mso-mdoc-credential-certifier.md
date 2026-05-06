@@ -2,5 +2,5 @@
 
 # MsoMdocCredentialCertifier
 
-[androidJvm]\
+[release]\
 constructor()

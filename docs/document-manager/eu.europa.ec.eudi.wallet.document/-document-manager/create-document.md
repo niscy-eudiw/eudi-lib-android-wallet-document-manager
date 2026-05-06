@@ -2,7 +2,7 @@
 
 # createDocument
 
-[androidJvm]\
+[release]\
 abstract fun [createDocument](create-document.md)(format: [DocumentFormat](../../eu.europa.ec.eudi.wallet.document.format/-document-format/index.md), createSettings: [CreateDocumentSettings](../-create-document-settings/index.md), issuerMetadata: [IssuerMetadata](../../eu.europa.ec.eudi.wallet.document.metadata/-issuer-metadata/index.md)? = null): [Outcome](../-outcome/index.md)&lt;[UnsignedDocument](../-unsigned-document/index.md)&gt;
 
 Creates a new document with the specified format and security settings.
@@ -20,11 +20,11 @@ The document creation workflow typically follows these steps:
 
 #### Return
 
-An [Outcome](../-outcome/index.md) containing either:     - A success result with the created [UnsignedDocument](../-unsigned-document/index.md)     - A failure result with an exception describing what went wrong
+An [Outcome](../-outcome/index.md) containing either:          - A success result with the created [UnsignedDocument](../-unsigned-document/index.md)          - A failure result with an exception describing what went wrong
 
 #### Parameters
 
-androidJvm
+release
 
 | | |
 |---|---|

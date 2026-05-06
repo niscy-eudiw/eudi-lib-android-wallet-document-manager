@@ -2,8 +2,8 @@
 
 # display
 
-[androidJvm]\
+[release]\
 
 @SerialName(value = &quot;display&quot;)
 
-val [display](display.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[IssuerMetadata.Claim.Display](-display/index.md)&gt;
+val [display](display.md): [List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[IssuerMetadata.Claim.Display](-display/index.md)&gt;

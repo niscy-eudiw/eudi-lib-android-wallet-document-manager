@@ -2,5 +2,5 @@
 
 # MsoMdocFormat
 
-[androidJvm]\
+[release]\
 constructor(docType: [DocType](../../eu.europa.ec.eudi.wallet.document/-doc-type/index.md))

@@ -15,6 +15,6 @@ sealed interface [CredentialPolicy](index.md)
 
 | Name | Summary |
 |---|---|
-| [Companion](-companion/index.md) | [androidJvm]<br>object [Companion](-companion/index.md) |
-| [OneTimeUse](-one-time-use/index.md) | [androidJvm]<br>data object [OneTimeUse](-one-time-use/index.md) : [CreateDocumentSettings.CredentialPolicy](index.md)<br>Policy that deletes the credential after a single use. |
-| [RotateUse](-rotate-use/index.md) | [androidJvm]<br>data object [RotateUse](-rotate-use/index.md) : [CreateDocumentSettings.CredentialPolicy](index.md)<br>Policy that manages credential rotation by tracking usage count. |
+| [Companion](-companion/index.md) | [release]<br>object [Companion](-companion/index.md) |
+| [OneTimeUse](-one-time-use/index.md) | [release]<br>data object [OneTimeUse](-one-time-use/index.md) : [CreateDocumentSettings.CredentialPolicy](index.md)<br>Policy that deletes the credential after a single use. |
+| [RotateUse](-rotate-use/index.md) | [release]<br>data object [RotateUse](-rotate-use/index.md) : [CreateDocumentSettings.CredentialPolicy](index.md)<br>Policy that manages credential rotation by tracking usage count. |
